@@ -1,5 +1,6 @@
+#include "server_funcs.h"
+/*
 #include <ncurses.h>
-#include "remote-char.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -7,7 +8,7 @@
 #include <ctype.h> 
 #include <stdlib.h>
 #include <zmq.h>
- 
+ */
 
 int main()
 {
