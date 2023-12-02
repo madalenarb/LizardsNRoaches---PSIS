@@ -1,4 +1,5 @@
-#include "remote-char.h"
+#include "roaches_function.h"
+/*
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
@@ -9,6 +10,7 @@
 #include <ctype.h>
 #include <ncurses.h>
 #include <zmq.h>
+*/
 
 int main()
 {	 
