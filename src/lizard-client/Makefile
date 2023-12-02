@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror -pedantic -std=c99
+CFLAGS = -g -Wall -std=c99
 LIBS = -lzmq -lncurses
 
 SRC_FILES = $(wildcard *.c)

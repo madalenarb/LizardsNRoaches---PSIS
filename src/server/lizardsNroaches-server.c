@@ -24,15 +24,15 @@ int main()
     assert(rc == 0);
 
 
-	initscr();		    	
-	cbreak();				
-    keypad(stdscr, TRUE);   
-	noecho();			    
+	// initscr();		    	
+	// cbreak();				
+    // keypad(stdscr, TRUE);   
+	// noecho();			    
 
-    /* creates a window and draws a border */
-    WINDOW * my_win = newwin(WINDOW_SIZE, WINDOW_SIZE, 0, 0);
-    box(my_win, 0 , 0);	
-	wrefresh(my_win);
+    // /* creates a window and draws a border */
+    // WINDOW * my_win = newwin(WINDOW_SIZE, WINDOW_SIZE, 0, 0);
+    // box(my_win, 0 , 0);	
+	// wrefresh(my_win);
 
     int ch;
     int pos_x;
@@ -40,9 +40,10 @@ int main()
 
 
     direction_t  direction;
-    while (1)
+    do
     {
         zmq_recv(socket, &m, sizeof(remote_char_t), 0);
+        printf("msg_type: %d, ch: %c, direction: %d\n", m.msg_type, m.ch, m.direction);
         int ch_pos = find_ch_info(char_data, n_chars, m.ch);
         if(m.msg_type == 0){
             if(ch_pos < 0)
@@ -60,19 +61,10 @@ int main()
         }
         if(m.msg_type == 1){
             //STEP 4
-            for(int i = 0; i < n_chars; i++){
-                wmove(my_win, char_data[i].pos_x, char_data[i].pos_y);
-                waddch(my_win,char_data[i].ch| A_BOLD);
-                wrefresh(my_win);	
-                zmq_send(socket, "OK", 2, 0);
-            }
             if(ch_pos != -1){
                 pos_x = char_data[ch_pos].pos_x;
                 pos_y = char_data[ch_pos].pos_y;
                 ch = char_data[ch_pos].ch;
-                /*deletes old place */
-                wmove(my_win, pos_x, pos_y);
-                waddch(my_win,' ');
 
                 /* claculates new direction */
                 direction = m.direction;
@@ -84,12 +76,10 @@ int main()
 
             }        
         }
-        /* draw mark on new position */
-        wmove(my_win, pos_x, pos_y);
-        waddch(my_win,ch| A_BOLD);
-        wrefresh(my_win);	
+        /* draw mark on new position */	
         zmq_send(socket, "OK", 2, 0);
-    }
+        printf("ch: %c, pos_x: %d, pos_y: %d\n", ch, pos_x, pos_y);
+    } while (ch != 'q');
   	endwin();			/* End curses mode		  */
 
 	return 0;
