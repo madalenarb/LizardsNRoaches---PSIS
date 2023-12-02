@@ -1,9 +1,4 @@
-// STEP 1
-typedef struct ch_info_t
-{
-    int ch;
-    int pos_x, pos_y;
-} ch_info_t;
+#include "server_funcs.h"
 
 direction_t random_direction(){
     return  random()%4;
