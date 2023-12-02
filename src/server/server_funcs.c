@@ -1,7 +1,7 @@
 #include "server_funcs.h"
 
 direction_t random_direction(){
-    return  random()%4;
+    return  rand()%4;
 
 }
     void new_position(int* x, int *y, direction_t direction){

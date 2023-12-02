@@ -1,8 +1,19 @@
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror -pedantic -std=c99 -g -lzmq -lncurses
+CFLAGS = -g -Wall -Wextra -Werror -pedantic -std=c99
+LIBS = -lzmq -lncurses
 
-all: lizardsNroaches-server
+SRC_FILES = $(wildcard *.c)
+OBJ_FILES = $(SRC_FILES:.c=.o)
 
+TARGET = lizardsNroaches-server
 
-lizardsNroaches-server: lizardsNroaches-server.c
-	$(CC) lizardsNroaches-server.c server_funcs.c -o lizardsNroaches-server $(CFLAGS)
+all: $(TARGET)
+
+$(TARGET): $(OBJ_FILES)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+
+%.o: $(SRC_DIR)/%.c	
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+clean:	
+	rm -f $(TARGET) $(OBJ_FILES)

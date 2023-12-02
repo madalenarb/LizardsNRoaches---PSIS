@@ -1,5 +1,19 @@
-all: display-app
+CC = gcc
+CFLAGS = -g -Wall -Wextra -Werror -pedantic -std=c99
+LIBS = -lzmq -lncurses
 
+SRC_FILES = $(wildcard *.c)
+OBJ_FILES = $(SRC_FILES:.c=.o)
 
-display-app: Display-app.c
-  gcc Display-app.c display_funcs.c -o display-app -lzmq -lncurses
+TARGET = display-app
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ_FILES)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+
+%.o: $(SRC_DIR)/%.c	
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+clean:	
+	rm -f $(TARGET) $(OBJ_FILES)

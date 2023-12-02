@@ -1,5 +1,19 @@
-all: roache-client
+CC = gcc
+CFLAGS = -g -Wall -Wextra -Werror -pedantic -std=c99
+LIBS = -lzmq -lncurses
 
+SRC_FILES = $(wildcard *.c)
+OBJ_FILES = $(SRC_FILES:.c=.o)
 
-roache-client: Roache-client.c
-	gcc Roache-client.c roaches_function.c -o roache-client -lzmq -lncurses
+TARGET = roaches-client
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ_FILES)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+
+%.o: $(SRC_DIR)/%.c	
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+clean:	
+	rm -f $(TARGET) $(OBJ_FILES)
