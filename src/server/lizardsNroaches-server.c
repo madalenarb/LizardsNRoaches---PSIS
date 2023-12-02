@@ -1,4 +1,6 @@
+#include "server_funcs.h"
 
+/*
 #include <ncurses.h>
 #include "remote-char.h"
 #include <unistd.h>
@@ -8,6 +10,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <zmq.h>
+*/
 
 #define WINDOW_SIZE 15 
 
