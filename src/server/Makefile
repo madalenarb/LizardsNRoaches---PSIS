@@ -1,6 +1,4 @@
-CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror -pedantic -std=c99
-LIBS = -lzmq -lncurses
+include ../../common/common.mk
 
 SRC_FILES = $(wildcard *.c)
 OBJ_FILES = $(SRC_FILES:.c=.o)

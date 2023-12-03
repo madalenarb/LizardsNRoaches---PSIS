@@ -1,6 +1,5 @@
-CC = gcc
-CFLAGS = -g -Wall -std=c99
-LIBS = -lzmq -lncurses
+include ../../common/common.mk
+
 
 SRC_FILES = $(wildcard *.c)
 OBJ_FILES = $(SRC_FILES:.c=.o)
