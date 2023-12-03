@@ -28,6 +28,11 @@ typedef struct message_t
     direction_t direction;
 } remote_char_t;
 
+typedef struct position_t
+{
+    int position_x;
+    int position_y;
+} position_t;
 
 #define FIFO_NAME "/tmp/lizard_fifo"
 
