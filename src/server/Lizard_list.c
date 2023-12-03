@@ -7,10 +7,10 @@ LizardClient* CreateLizardClient(int id, position_t position, int score){
         perror("malloc lizardClient");
         exit(EXIT_FAILURE);
     }
-    lizardClient->id = id;
-    lizardClient->position = position;
-    lizardClient->score = score;
-    lizardClient->next = NULL;
+    newClient->id = id;
+    newClient->position = position;
+    newClient->score = score;
+    newClient->next = NULL;
     return newClient;
 }
 
@@ -63,4 +63,16 @@ void freeList(LizardClient** headLizardList){
         *headLizardList = (*headLizardList)->next;
         free(current);
     }
+}
+
+// Get the LizardClient with the id
+LizardClient* findLizardClient(LizardClient* headLizardList, int id){
+    LizardClient* current = headLizardList;
+    while(current != NULL){
+        if(current->id == id){
+            return current;
+        }
+        current = current->next;
+    }
+    return NULL;
 }
