@@ -13,7 +13,7 @@ int main()
         printf("what is your character(a..z)?: ");
         ch = getchar();
         ch = tolower(ch);  
-    }while(!isalpha(ch));
+    } while (!isalpha(ch));
 
 
     // TODO_6
