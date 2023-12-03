@@ -40,13 +40,13 @@ int main()
     int sleep_delay;
     direction_t direction;
     int n = 0;
-    int key;
+    int key=0;
     do
     {
-        sleep_delay = random()%700000;
+        sleep_delay = rand()%700000;
         n++;
         usleep(sleep_delay);
-        direction = random()%4;
+        direction = rand()%4;
         switch (direction)
         {
         case LEFT:

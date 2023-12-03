@@ -2,7 +2,6 @@
 #define PROTOCOL_H
 
 #include <ncurses.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -10,6 +9,9 @@
 #include <ctype.h> 
 #include <stdlib.h>
 #include <zmq.h>
+#include <stdlib.h>
+#include <time.h>
+
 
 #include "constants.h"
 

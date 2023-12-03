@@ -3,7 +3,7 @@
 // Create a new LizardClient
 LizardClient* CreateLizardClient(int id, position_t position, int score){
     LizardClient* newClient = malloc(sizeof(LizardClient));
-    if(lizardClient == NULL){
+    if(newClient == NULL){
         perror("malloc lizardClient");
         exit(EXIT_FAILURE);
     }
@@ -33,7 +33,7 @@ void addLizardClient(LizardClient** headLizardList, int id, position_t position,
 void printList(LizardClient* headLizardList){
     LizardClient* current = headLizardList;
     while(current != NULL){
-        printf("id: %d, position: %d, score: %d\n", current->id, current->position, current->score);
+        printf("id: %d, position: %d, %d, score: %d\n", current->id, current->position.position_x, current->position.position_y, current->score);
         current = current->next;
     }
 }

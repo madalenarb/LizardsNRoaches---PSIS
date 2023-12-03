@@ -14,8 +14,7 @@
 int main()
 {
     //STEP 2
-    ch_info_t char_data[100];
-    int n_chars = 0;
+    // int n_chars = 0;
 
     remote_char_t m;
 	void *context = zmq_ctx_new();
@@ -38,44 +37,37 @@ int main()
     int pos_x;
     int pos_y;
 
-
-    direction_t  direction;
     do
     {
         zmq_recv(socket, &m, sizeof(remote_char_t), 0);
         printf("msg_type: %d, ch: %c, direction: %d\n", m.msg_type, m.ch, m.direction);
-        int ch_pos = find_ch_info(char_data, n_chars, m.ch);
+        // int ch_pos = find_ch_info(char_data, n_chars, m.ch);
         if(m.msg_type == 0){
-            if(ch_pos < 0)
-            {
-                ch = m.ch;
-                pos_x = WINDOW_SIZE/2;
-                pos_y = WINDOW_SIZE/2;
+            // if(ch_pos < 0)
+            // {
+            ch = m.ch;
+            pos_x = WINDOW_SIZE/2;
+            pos_y = WINDOW_SIZE/2;
 
-                //STEP 3
-                char_data[n_chars].ch = ch;
-                char_data[n_chars].pos_x = pos_x;
-                char_data[n_chars].pos_y = pos_y;
-                n_chars++;
-            }    
+            //STEP 3
+            // char_data[n_chars].ch = ch;
+            // char_data[n_chars].pos_x = pos_x;
+            // char_data[n_chars].pos_y = pos_y;
+            // n_chars++;
+            // }    
         }
-        if(m.msg_type == 1){
+        // if(m.msg_type == 1){
             //STEP 4
-            if(ch_pos != -1){
-                pos_x = char_data[ch_pos].pos_x;
-                pos_y = char_data[ch_pos].pos_y;
-                ch = char_data[ch_pos].ch;
+            // if(ch_pos != -1){
+                // pos_x = char_data[ch_pos].pos_x;
+                // pos_y = char_data[ch_pos].pos_y;
+                // ch = char_data[ch_pos].ch;
 
-                /* claculates new direction */
-                direction = m.direction;
+                // /* claculates new mark position */
+                // new_position(&pos_x, &pos_y, direction);
 
-                /* claculates new mark position */
-                new_position(&pos_x, &pos_y, direction);
-                char_data[ch_pos].pos_x = pos_x;
-                char_data[ch_pos].pos_y = pos_y;
-
-            }        
-        }
+            // }        
+        // }
         /* draw mark on new position */	
         zmq_send(socket, "OK", 2, 0);
         printf("ch: %c, pos_x: %d, pos_y: %d\n", ch, pos_x, pos_y);
