@@ -35,17 +35,12 @@ int main()
 
     // prepare the movement message
     m.msg_type = 1;
-    m.ch = ch;
-    
-    direction_t direction;
-
     int key;
     do
     {
     	key = getch();		
         n++;
-        select_direction(key);
-        direction = select_direction(key);
+        m.direction = select_direction(key, n, m);
 
         if (key != 'q'){
             zmq_send(socket, &m, sizeof(m), 0);
