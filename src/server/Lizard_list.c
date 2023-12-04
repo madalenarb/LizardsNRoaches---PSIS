@@ -1,23 +1,24 @@
 #include "Lizard_list.h"
 
 // Create a new LizardClient
-LizardClient* CreateLizardClient(int id, position_t position, int score){
+LizardClient* CreateLizardClient(int id){
     LizardClient* newClient = malloc(sizeof(LizardClient));
     if(newClient == NULL){
         perror("malloc lizardClient");
         exit(EXIT_FAILURE);
     }
     newClient->id = id;
-    newClient->position = position;
-    newClient->score = score;
+    newClient->position.position_x = WINDOW_SIZE/2;
+    newClient->position.position_y = WINDOW_SIZE/2;
+    newClient->score = 0;
     newClient->next = NULL;
     return newClient;
 }
 
 
 // Add a new LizardClient to the end of the list
-void addLizardClient(LizardClient** headLizardList, int id, position_t position, int score){
-    LizardClient* lizardClient = CreateLizardClient(id, position, score);
+void addLizardClient(LizardClient** headLizardList, int id){
+    LizardClient* lizardClient = CreateLizardClient(id);
     if(*headLizardList == NULL){
         *headLizardList = lizardClient;
     } else {
