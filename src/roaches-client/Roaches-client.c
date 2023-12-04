@@ -32,10 +32,10 @@ int main()
 
     // TODO_6
     // send connection message
-    remote_char_t m;
-    m.msg_type = 0;
+    message_t m;
+    m.msg_type = MSG_TYPE_LIZARD_CONNECT;
     m.ch = ch;
-    zmq_send(socket, &m, sizeof(remote_char_t), 0);
+    zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, answer, 10, 0);
 
     int sleep_delay;
@@ -67,10 +67,10 @@ int main()
         //TODO_9
         // prepare the movement message
         m.direction = direction;
-        m.msg_type = 1;
+        m.msg_type = MSG_TYPE_LIZARD_MOVEMENT;
 
         if(key != 'x'){
-            zmq_send(socket, &m, sizeof(remote_char_t), 0);
+            zmq_send(socket, &m, sizeof(message_t), 0);
             zmq_recv(socket, answer, 10, 0);        
         }
     } while (key != 'x');

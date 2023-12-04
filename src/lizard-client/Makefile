@@ -14,5 +14,8 @@ $(TARGET): $(OBJ_FILES)
 %.o: $(SRC_DIR)/%.c	
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+valgrind: $(TARGET)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TARGET)
+
 clean:	
 	rm -f $(TARGET) $(OBJ_FILES)

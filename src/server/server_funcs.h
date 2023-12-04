@@ -6,5 +6,6 @@
 #include "Lizard_list.h"
 #include <assert.h>
 
+void new_position(int* x, int *y, direction_t direction);
 
 #endif

@@ -28,7 +28,7 @@ typedef struct message_t
     int msg_type; /* 0 join   1 - move */
     char ch;
     direction_t direction;
-} remote_char_t;
+} message_t;
 
 typedef struct position_t
 {
@@ -37,5 +37,8 @@ typedef struct position_t
 } position_t;
 
 #define FIFO_NAME "/tmp/lizard_fifo"
+
+message_t *init_message();
+message_t *create_message(int msg_type, char ch, direction_t direction);
 
 #endif

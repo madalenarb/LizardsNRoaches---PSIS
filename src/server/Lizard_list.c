@@ -1,7 +1,7 @@
 #include "Lizard_list.h"
 
 // Create a new LizardClient
-LizardClient* CreateLizardClient(int id){
+LizardClient* initLizardClient(char id){
     LizardClient* newClient = malloc(sizeof(LizardClient));
     if(newClient == NULL){
         perror("malloc lizardClient");
@@ -17,8 +17,8 @@ LizardClient* CreateLizardClient(int id){
 
 
 // Add a new LizardClient to the end of the list
-void addLizardClient(LizardClient** headLizardList, int id){
-    LizardClient* lizardClient = CreateLizardClient(id);
+void addLizardClient(LizardClient** headLizardList, char id){
+    LizardClient* lizardClient = initLizardClient(id);
     if(*headLizardList == NULL){
         *headLizardList = lizardClient;
     } else {
@@ -34,13 +34,13 @@ void addLizardClient(LizardClient** headLizardList, int id){
 void printList(LizardClient* headLizardList){
     LizardClient* current = headLizardList;
     while(current != NULL){
-        printf("id: %d, position: %d, %d, score: %d\n", current->id, current->position.position_x, current->position.position_y, current->score);
+        printf("id: %c, position: %d, %d, score: %d\n", current->id, current->position.position_x, current->position.position_y, current->score);
         current = current->next;
     }
 }
 
 // Disconect a LizardClient from the list
-void disconectLizardClient(LizardClient** headLizardList, int id){
+void disconnectLizardClient(LizardClient** headLizardList, char id){
     LizardClient* current = *headLizardList, *prev;
     if(current != NULL && current->id == id){
         *headLizardList = current->next;
@@ -67,7 +67,7 @@ void freeList(LizardClient** headLizardList){
 }
 
 // Get the LizardClient with the id
-LizardClient* findLizardClient(LizardClient* headLizardList, int id){
+LizardClient* findLizardClient(LizardClient* headLizardList, char id){
     LizardClient* current = headLizardList;
     while(current != NULL){
         if(current->id == id){

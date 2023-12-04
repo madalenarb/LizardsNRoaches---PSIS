@@ -1,6 +1,6 @@
 #include "Lizard-funcs.h"
 
-direction_t select_direction(int ch, int n, remote_char_t m){
+direction_t select_direction(int ch, int n, message_t m){
     switch (ch)
     {
         // If the Left arrow key is pressed

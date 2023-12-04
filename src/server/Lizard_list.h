@@ -12,11 +12,11 @@ typedef struct LizardClient{
     struct LizardClient *next; // pointer to the next Lizard client
 } LizardClient;
 
-LizardClient* CreateLizardClient(int id);
-void addLizardClient(LizardClient** headLizardList, int id);
+LizardClient* CreateLizardClient(char id);
+void addLizardClient(LizardClient** headLizardList, char id);
 void printList(LizardClient* headLizardList);
-void disconectLizardClient(LizardClient** headLizardList, int id);
+void disconnectLizardClient(LizardClient** headLizardList, char id);
 void freeList(LizardClient** headLizardList);
-LizardClient* findLizardClient(LizardClient* headLizardList, int id);
+LizardClient* findLizardClient(LizardClient* headLizardList, char id);
 
 #endif /* LIZARD_LIST_H */

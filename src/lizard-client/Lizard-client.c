@@ -18,10 +18,10 @@ int main()
 
     // TODO_6
     // send connection message
-    remote_char_t m;
+    message_t m;
     m.msg_type = 0;
     m.ch = ch;
-    zmq_send(socket, &m, sizeof(remote_char_t), 0);
+    zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, answer, 3, 0);
 
 	initscr();			/* Start curses mode 		*/
