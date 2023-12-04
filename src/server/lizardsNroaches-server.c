@@ -24,6 +24,13 @@ int main()
     //Linked list to manage Lizard clients
     LizardClient* headLizardList = NULL;
 
+    int pos_x = 0;
+    int pos_y = 0;
+
+    char char_cauda= '.'; //que depois quando atingir 50 de score vai ser alterado para '*'
+    int cauda_x[0,0,0,0,0]; //coordenadas da cauda e inicializados a 0
+    int cauda_x[0,0,0,0,0];
+
 	// initscr();		    	
 	// cbreak();				
     // keypad(stdscr, TRUE);   
@@ -66,7 +73,7 @@ int main()
                 // ch = char_data[ch_pos].ch;
 
                 // /* claculates new mark position */
-                // new_position(&pos_x, &pos_y, direction);
+                // new_position(&pos_x, &pos_y, cauda_x, cauda_y, direction); //ja com as coordenadas da cauda incluidas
 
             // }        
         // }
