@@ -11,6 +11,8 @@
 #include <zmq.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
+#include <zlib.h>
 
 
 #include "constants.h"
@@ -27,6 +29,7 @@ typedef struct message_t
 {   
     int msg_type; /* 0 join   1 - move */
     char ch;
+    uint32_t checksum;
     direction_t direction;
 } message_t;
 

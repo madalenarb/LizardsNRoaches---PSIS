@@ -6,6 +6,8 @@
         "roaches_function.h": "c",
         "lizard_list.h": "c",
         "protocol.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "time.h": "c",
+        "zlib.h": "c"
     }
 }

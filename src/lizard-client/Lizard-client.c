@@ -19,7 +19,7 @@ int main()
     // TODO_6
     // send connection message
     message_t m;
-    m.msg_type = 0;
+    m.msg_type = MSG_TYPE_LIZARD_CONNECT;
     m.ch = ch;
     zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, answer, 3, 0);
@@ -34,7 +34,7 @@ int main()
     //TODO_9
 
     // prepare the movement message
-    m.msg_type = 1;
+    m.msg_type = MSG_TYPE_LIZARD_MOVEMENT;
     int key;
     do
     {
@@ -48,9 +48,12 @@ int main()
         }
         refresh();			/* Print it on to the real screen */
     }while(key != 'q');
-    
+        
     
   	endwin();			/* End curses mode		  */
+    m.msg_type = MSG_TYPE_DISCONNECT;
+    printf("Sending disconnect message %d\n", m.msg_type);
+    zmq_send(socket, &m, sizeof(m), 0);
     zmq_close(socket);
     zmq_close(context);
     printf("Bye\n");

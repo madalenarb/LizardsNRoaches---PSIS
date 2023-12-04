@@ -24,9 +24,6 @@ int main()
     //Linked list to manage Lizard clients
     LizardClient* headLizardList = NULL;
 
-    int pos_x = 0;
-    int pos_y = 0;
-
 	// initscr();		    	
 	// cbreak();				
     // keypad(stdscr, TRUE);   
@@ -36,13 +33,13 @@ int main()
     // WINDOW * my_win = newwin(WINDOW_SIZE, WINDOW_SIZE, 0, 0);
     // box(my_win, 0 , 0);	
 	// wrefresh(my_win);
-
+    int flag = 0;
     do
     {
         zmq_recv(socket, &m, sizeof(message_t), 0);
         
         
-        // printf("msg_type: %d, ch: %c, direction: %d\n", m.msg_type, m.ch, m.direction);
+        printf("msg_type: %d, ch: %c, direction: %d\n", m.msg_type, m.ch, m.direction);
         // int ch_pos = find_ch_info(char_data, n_chars, m.ch);
         if(m.msg_type == MSG_TYPE_LIZARD_CONNECT){
             LizardClient* lizardClient = findLizardClient(headLizardList, m.ch);
@@ -59,6 +56,7 @@ int main()
             }
         } else if(m.msg_type == MSG_TYPE_DISCONNECT){
             disconnectLizardClient(&headLizardList, m.ch);
+            printf("LizardClient %c disconnected\n", m.ch);
         }
         // if(m.msg_type == 1){
             //STEP 4
@@ -73,8 +71,12 @@ int main()
             // }        
         // }
         /* draw mark on new position */	
+        printList(headLizardList);
         zmq_send(socket, "OK", 2, 0);
-    } while (m.ch != 'q');
+        if(headLizardList == NULL){
+            flag = -1;
+        }
+    } while (flag != -1);
   	endwin();			/* End curses mode		  */
     freeList(&headLizardList);
     zmq_close(socket);
