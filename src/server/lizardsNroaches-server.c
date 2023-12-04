@@ -40,6 +40,7 @@ int main()
     do
     {
         zmq_recv(socket, &m, sizeof(remote_char_t), 0);
+        
         printf("msg_type: %d, ch: %c, direction: %d\n", m.msg_type, m.ch, m.direction);
         // int ch_pos = find_ch_info(char_data, n_chars, m.ch);
         if(m.msg_type == 0){

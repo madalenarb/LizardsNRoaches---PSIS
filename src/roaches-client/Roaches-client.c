@@ -11,6 +11,7 @@
 #include <ncurses.h>
 #include <zmq.h>
 */
+#include <unistd.h>
 
 int main()
 {	 
@@ -70,7 +71,8 @@ int main()
 
         if(key != 'x'){
             zmq_send(socket, &m, sizeof(remote_char_t), 0);
-            zmq_recv(socket, answer, 10, 0);        }
+            zmq_recv(socket, answer, 10, 0);        
+        }
     } while (key != 'x');
 
     endwin();			/* End curses mode		  */

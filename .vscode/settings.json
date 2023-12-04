@@ -4,6 +4,8 @@
         "server_funcs.h": "c",
         "constants.h": "c",
         "roaches_function.h": "c",
-        "lizard_list.h": "c"
+        "lizard_list.h": "c",
+        "protocol.h": "c",
+        "stdlib.h": "c"
     }
 }

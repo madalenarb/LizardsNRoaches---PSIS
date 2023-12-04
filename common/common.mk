@@ -1,3 +1,3 @@
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror -pedantic -std=c99
+CFLAGS = -g -Wall -Wextra -pedantic
 LIBS = -lzmq -lncurses
