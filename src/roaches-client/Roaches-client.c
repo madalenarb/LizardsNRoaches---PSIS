@@ -86,7 +86,7 @@ int main() //ver se ja funciona algumas coisas
     //const char *server_address = argv[1];
     //const char *server_port = argv[2];
     //char ch;
-    remote_char_t m;
+    message_t m;
 
     char answer[10];
     // Initialize the ZeroMQ context and socket
@@ -110,7 +110,7 @@ int main() //ver se ja funciona algumas coisas
     
     m.msg_type = MSG_TYPE_LIZARD_CONNECT;
     m.ch = 0;
-    zmq_send(socket, &m, sizeof(remote_char_t), 0);
+    zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, answer, 10, 0);
 
     for(int i=0;i<num_roaches;i++)
@@ -124,7 +124,7 @@ int main() //ver se ja funciona algumas coisas
         do
         {
             sleep_delay = rand()%700000;
-            //usleep(sleep_delay);
+            usleep(sleep_delay);
             n++;
             direction = rand()%4;
             switch (direction)
@@ -149,7 +149,7 @@ int main() //ver se ja funciona algumas coisas
             m.msg_type = MSG_TYPE_LIZARD_MOVEMENT;
 
             if(key != 'x'){
-                zmq_send(socket, &m, sizeof(remote_char_t), 0);
+                zmq_send(socket, &m, sizeof(message_t), 0);
                 zmq_recv(socket, answer, 10, 0);        
             }
         } while (key != 'x');
