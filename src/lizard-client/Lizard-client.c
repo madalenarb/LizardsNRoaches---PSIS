@@ -22,12 +22,6 @@ int main()
 
     zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, answer, 3, 0);
-    if(strcmp(answer, "Corrupted Message") != 0){
-        printf("Server refused connection\n");
-        zmq_close(socket);
-        zmq_ctx_destroy(context);
-        exit(EXIT_FAILURE);
-    }
 
 	initscr();			/* Start curses mode 		*/
     cbreak();				/* Line buffering disabled	*/
@@ -52,12 +46,6 @@ int main()
             zmq_recv(socket, answer, 3, 0);  
         }
         refresh();			/* Print it on to the real screen */
-        if(strcmp(answer, "Corrupted Message") != 0){
-            printf("Server refused connection\n");
-            zmq_close(socket);
-            zmq_ctx_destroy(context);
-            exit(EXIT_FAILURE);
-        }
     }while(key != 'q');
         
     
