@@ -25,8 +25,8 @@ int main()
     LizardClient* headLizardList = NULL;
 
     char char_cauda= '.'; //que depois quando atingir 50 de score vai ser alterado para '*'
-    int cauda_x[5] = {0}; 
-    int cauda_y[5] = {0};
+    int cauda_x[5]={0}; //coordenadas da cauda e inicializados a 0
+    int cauda_y[5]={0};
 
 	// initscr();		    	
 	// cbreak();				
@@ -54,7 +54,11 @@ int main()
             LizardClient* lizardClient = findLizardClient(headLizardList, m.ch);
             if(lizardClient != NULL){
                 //Calculates new mark position
+<<<<<<< HEAD
                 new_position(&lizardClient->position.position_x, &lizardClient->position.position_y, cauda_x, cauda_y, m.direction);
+=======
+                new_position(&lizardClient->position.position_x, &lizardClient->position.position_y,cauda_x,cauda_y, m.direction);
+>>>>>>> 3bd89a7b736f4ac5155c612e5dde0548c6a96ce0
             } else {
                 printf("LizardClient not found\n");
             }
