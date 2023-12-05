@@ -23,7 +23,7 @@ int main()
     //Linked list to manage Lizard clients
     LizardClient* headLizardList = NULL;
 
-    char char_cauda= '.'; //que depois quando atingir 50 de score vai ser alterado para '*'
+    //char char_cauda= '.'; // quando for para imprimir os . descomenta-se
     int cauda_x[5]={0}; //coordenadas da cauda e inicializados a 0
     int cauda_y[5]={0};
 
@@ -64,6 +64,10 @@ int main()
 
         /* draw mark on new position */	
         printList(headLizardList);
+	for(int i=0; i<5; i++)
+        {
+            printf("cauda_x[%d]=%d cauda_y[%d]=%d\n", i, cauda_x[i], i, cauda_y[i]);
+        }
         zmq_send(socket, "OK", 2, 0);
         if(headLizardList == NULL){
             flag = -1;
