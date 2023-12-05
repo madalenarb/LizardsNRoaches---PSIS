@@ -14,7 +14,6 @@
 int main()
 {
     // int n_chars = 0;
-
     message_t m;
 	void *context = zmq_ctx_new();
     void *socket = zmq_socket(context, ZMQ_REP);

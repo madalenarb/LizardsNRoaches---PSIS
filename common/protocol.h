@@ -43,5 +43,7 @@ typedef struct position_t
 
 message_t *init_message();
 message_t *create_message(int msg_type, char ch, direction_t direction);
+uint32_t checksum(message_t *m);
+int is_corrupted(message_t *m);
 
 #endif

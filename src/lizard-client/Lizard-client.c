@@ -2,7 +2,7 @@
 
 int main()
 {
-    char answer[3];
+    char answer[50];
     // Initialize the ZeroMQ context and socket
     void *context = zmq_ctx_new();
     void *socket = zmq_socket(context, ZMQ_REQ);
@@ -15,14 +15,19 @@ int main()
         ch = tolower(ch);  
     } while (!isalpha(ch));
 
-
-    // TODO_6
     // send connection message
     message_t m;
     m.msg_type = MSG_TYPE_LIZARD_CONNECT;
     m.ch = ch;
+
     zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, answer, 3, 0);
+    if(strcmp(answer, "Corrupted Message") != 0){
+        printf("Server refused connection\n");
+        zmq_close(socket);
+        zmq_ctx_destroy(context);
+        exit(EXIT_FAILURE);
+    }
 
 	initscr();			/* Start curses mode 		*/
     cbreak();				/* Line buffering disabled	*/
@@ -47,6 +52,12 @@ int main()
             zmq_recv(socket, answer, 3, 0);  
         }
         refresh();			/* Print it on to the real screen */
+        if(strcmp(answer, "Corrupted Message") != 0){
+            printf("Server refused connection\n");
+            zmq_close(socket);
+            zmq_ctx_destroy(context);
+            exit(EXIT_FAILURE);
+        }
     }while(key != 'q');
         
     
