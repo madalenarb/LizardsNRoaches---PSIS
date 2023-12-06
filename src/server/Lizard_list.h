@@ -7,8 +7,8 @@
 typedef struct LizardClient{
     int id; // id of the Lizard client
     position_t position; // position of the Lizard client
-    int cauda_x[]; // x position of tail elements 
-    int cauda_y[]; // y position of tail elements
+    int cauda_x[5]; // x position of tail elements 
+    int cauda_y[5]; // y position of tail elements
     int score; // score of the Lizard client
     int connected; // 1 if connected, 0 if disconnected
 
