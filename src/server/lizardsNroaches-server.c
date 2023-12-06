@@ -44,12 +44,14 @@ int main()
         zmq_recv(socket, &m, sizeof(message_t), 0);
         if(findLizardClient(headLizardList, m.ch) != NULL && m.msg_type == MSG_TYPE_LIZARD_CONNECT){
             m.msg_type = MSG_TYPE_DISCONNECT;
-            m.ch = 'q'; 
+            // printf("LizardClient %c disconnected\n", m.ch);
+            zmq_send(socket, &m, sizeof(m), 0);
+            m.msg_type = -10;
+        } else {
+            lizardClient->direction=m.direction;
+            //// print("msg_type: %d, ch: %c, direction: %d\n", m.msg_type, m.ch, m.direction);
             zmq_send(socket, &m, sizeof(m), 0);
         }
-        lizardClient->direction=m.direction;
-        //// print("msg_type: %d, ch: %c, direction: %d\n", m.msg_type, m.ch, m.direction);
-        zmq_send(socket, &m, sizeof(m), 0);
 
         // // print("msg_type: %d, ch: %c, direction: %d\n", m.msg_type, m.ch, m.direction);
         // int ch_pos = find_ch_info(char_data, n_chars, m.ch);
@@ -135,7 +137,7 @@ int main()
                 wrefresh(my_win);
             }
         } else if(m.msg_type == MSG_TYPE_DISCONNECT){
-            //// print("LizardClient %c disconnected11111111\n", m.ch);
+                printf("LizardClient %c disconnected11111111\n", m.ch);
                 lizardClient = findLizardClient(headLizardList, m.ch);
 
                 wmove(my_win, lizardClient->position.position_x, lizardClient->position.position_y);
@@ -149,8 +151,6 @@ int main()
 
             wrefresh(my_win);
             disconnectLizardClient(&headLizardList, m.ch);
-
-            lizardClient = NULL;
 
             n_lizards--;
             // printf("LizardClient %c disconnected!!!!\n", m.ch);
