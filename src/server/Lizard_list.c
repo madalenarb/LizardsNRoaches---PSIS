@@ -1,7 +1,7 @@
 #include "Lizard_list.h"
 
 // Create a new LizardClient
-LizardClient* initLizardClient(char id){
+LizardClient* initLizardClient(int id){
     LizardClient* newClient = malloc(sizeof(LizardClient));
     if(newClient == NULL){
         perror("malloc lizardClient");
@@ -22,7 +22,7 @@ LizardClient* initLizardClient(char id){
 
 
 // Add a new LizardClient to the end of the list
-void addLizardClient(LizardClient** headLizardList, char id){
+void addLizardClient(LizardClient** headLizardList, int id){
     LizardClient* lizardClient = initLizardClient(id);
     if(*headLizardList == NULL){
         *headLizardList = lizardClient;

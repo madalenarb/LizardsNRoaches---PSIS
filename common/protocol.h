@@ -29,7 +29,7 @@ typedef struct message_t
 {   
     int msg_type; /* 0 join   1 - move */
     char ch;
-    uint32_t checksum;
+    int id; // id given by the server, the client uses it to verify
     direction_t direction;
 } message_t;
 

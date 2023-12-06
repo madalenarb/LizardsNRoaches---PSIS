@@ -10,13 +10,13 @@ typedef struct LizardClient{
     int cauda_x[]; // x position of tail elements 
     int cauda_y[]; // y position of tail elements
     int score; // score of the Lizard client
-    int connected; // 1 if connected, 0 if disconnected
+    int connected; // 1 if connected, 0 if disconnected char ch; // character of the Lizard client
 
     struct LizardClient *next; // pointer to the next Lizard client
 } LizardClient;
 
-LizardClient* CreateLizardClient(char id);
-void addLizardClient(LizardClient** headLizardList, char id);
+
+void addLizardClient(LizardClient** headLizardList, int id);
 void printList(LizardClient* headLizardList);
 void disconnectLizardClient(LizardClient** headLizardList, char id);
 void freeList(LizardClient** headLizardList);

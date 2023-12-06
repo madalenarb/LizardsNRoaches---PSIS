@@ -2,7 +2,7 @@
 
 int main()
 {
-    char answer[50];
+    message_t ACK_server;
     // Initialize the ZeroMQ context and socket
     void *context = zmq_ctx_new();
     void *socket = zmq_socket(context, ZMQ_REQ);
@@ -19,9 +19,9 @@ int main()
     message_t m;
     m.msg_type = MSG_TYPE_LIZARD_CONNECT;
     m.ch = ch;
-
     zmq_send(socket, &m, sizeof(message_t), 0);
-    zmq_recv(socket, answer, 3, 0);
+    zmq_recv(socket, &ACK_server, 3, 0);
+    m.id = ACK_server.id;
 
 	initscr();			/* Start curses mode 		*/
     cbreak();				/* Line buffering disabled	*/

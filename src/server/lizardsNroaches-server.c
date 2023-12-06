@@ -40,21 +40,25 @@ int main()
     do
     {
         zmq_recv(socket, &m, sizeof(message_t), 0);
+        zmq_send(socket, &m, sizeof(m), 0);
         
         
         // printf("msg_type: %d, ch: %c, direction: %d\n", m.msg_type, m.ch, m.direction);
         // int ch_pos = find_ch_info(char_data, n_chars, m.ch);
         if(m.msg_type == MSG_TYPE_LIZARD_CONNECT){
-            LizardClient* lizardClient = findLizardClient(headLizardList, m.ch);
+            m.id = getIdfromClient(m.ch);
+            LizardClient* lizardClient = findLizardClient(headLizardList, m.id);
             if(lizardClient == NULL){
-                addLizardClient(&headLizardList, m.ch);
+                addLizardClient(&headLizardList, m.id);
             }
+            
         } else if(m.msg_type == MSG_TYPE_LIZARD_MOVEMENT){
+            
             LizardClient* lizardClient = findLizardClient(headLizardList, m.ch);
             if(lizardClient != NULL){
                 //Calculates new mark position
                 //new_position(&lizardClient->position.position_x, &lizardClient->position.position_y,cauda_x,cauda_y, m.direction);
-		new_position(&lizardClient->position.position_x, &lizardClient->position.position_y,lizardClient->cauda_x,lizardClient->cauda_y, m.direction);
+		        new_position(&lizardClient->position.position_x, &lizardClient->position.position_y,lizardClient->cauda_x,lizardClient->cauda_y, m.direction);
             } else {
                 printf("LizardClient not found\n");
             }
@@ -69,7 +73,6 @@ int main()
         {
             printf("cauda_x[%d]=%d cauda_y[%d]=%d\n", i, cauda_x[i], i, cauda_y[i]);
         }*/
-        zmq_send(socket, "OK", 2, 0);
         if(headLizardList == NULL){
             flag = -1;
         }
