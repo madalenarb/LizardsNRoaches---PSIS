@@ -7,6 +7,8 @@
 typedef struct LizardClient{
     char id; // id of the Lizard client
     position_t position; // position of the Lizard client
+    int cauda_x[]; // x position of tail elements 
+    int cauda_y[]; // y position of tail elements
     int score; // score of the Lizard client
 
     struct LizardClient *next; // pointer to the next Lizard client
