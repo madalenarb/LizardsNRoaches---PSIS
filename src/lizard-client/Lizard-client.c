@@ -19,9 +19,9 @@ int main()
     message_t m;
     m.msg_type = MSG_TYPE_LIZARD_CONNECT;
     m.ch = ch;
+    m.direction = -1;
     zmq_send(socket, &m, sizeof(message_t), 0);
-    zmq_recv(socket, &ACK_server, 3, 0);
-    m.id = ACK_server.id;
+    zmq_recv(socket, &ACK_server, sizeof(message_t), 0);
 
 	initscr();			/* Start curses mode 		*/
     cbreak();				/* Line buffering disabled	*/
@@ -43,7 +43,7 @@ int main()
 
         if (key != 'q'){
             zmq_send(socket, &m, sizeof(m), 0);
-            zmq_recv(socket, answer, 3, 0);  
+            zmq_recv(socket, &ACK_server, 3, 0);  
         }
         refresh();			/* Print it on to the real screen */
     }while(key != 'q');

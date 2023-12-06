@@ -8,6 +8,7 @@
         "protocol.h": "c",
         "stdlib.h": "c",
         "time.h": "c",
-        "zlib.h": "c"
+        "zlib.h": "c",
+        "thread": "c"
     }
 }

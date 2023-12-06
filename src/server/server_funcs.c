@@ -134,13 +134,12 @@ void new_position(int* x, int *y, int cauda_x[], int cauda_y[], direction_t dire
         }
     }
 
-int getIdFromChar(char char){
-    //Get from an algorith the ID from the char
-    return ((int)char + 42) ^ 7;
+int getIdFromChar(char id_char){
+    // Get from an algorithm the ID from the char
+    return (((int)id_char + 10042) * 7) % 100128;
 }
 
 char getCharFromId(int id){
     //Get from an algorith the char from the ID (reverse of getIdFromChar)
-    int xorResult = id ^ 7;
-    return (char)(xorResult - 42);
+    return (char)(id/7 - 10042);
 }

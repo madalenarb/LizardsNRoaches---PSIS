@@ -5,7 +5,7 @@
 #include "../../common/constants.h"
 
 typedef struct LizardClient{
-    int id; // id of the Lizard client
+    char id; // id of the Lizard client
     position_t position; // position of the Lizard client
     int cauda_x[5]; // x position of tail elements 
     int cauda_y[5]; // y position of tail elements
@@ -16,7 +16,7 @@ typedef struct LizardClient{
 } LizardClient;
 
 
-void addLizardClient(LizardClient** headLizardList, int id);
+void addLizardClient(LizardClient** headLizardList, char id);
 void printList(LizardClient* headLizardList);
 void disconnectLizardClient(LizardClient** headLizardList, char id);
 void freeList(LizardClient** headLizardList);
