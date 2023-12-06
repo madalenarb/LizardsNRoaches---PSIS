@@ -138,3 +138,39 @@ void new_position(LizardClient* lizardClient){
 
 
 
+// Iterate through the linked list of LizardClients and update the graphics for each client
+void updateGraphics(WINDOW *my_win, LizardClient* headLizardList) {
+    LizardClient* current = headLizardList;
+    while (current != NULL) {
+        wmove(my_win, current->position.position_x, current->position.position_y);
+        waddch(my_win, current->id | A_BOLD);
+
+        for (int i = 0; i < 5; i++) {
+            wmove(my_win, current->cauda_x[i], current->cauda_y[i]);
+            if (current->score < 50)
+                waddch(my_win, '.' | A_BOLD);
+            else
+                waddch(my_win, '*' | A_BOLD);
+        }
+
+        current = current->next;
+    }
+
+    wrefresh(my_win);
+}
+
+// Update the graphics when a LizardClient moves
+void updateGraphicsOnMove(WINDOW *my_win, LizardClient* lizardClient) {
+    wmove(my_win, lizardClient->position.position_x, lizardClient->position.position_y);
+    waddch(my_win, lizardClient->id | A_BOLD);
+
+    for (int i = 0; i < 5; i++) {
+        wmove(my_win, lizardClient->cauda_x[i], lizardClient->cauda_y[i]);
+        if (lizardClient->score < 50)
+            waddch(my_win, '.' | A_BOLD);
+        else
+            waddch(my_win, '*' | A_BOLD);
+    }
+
+    wrefresh(my_win);
+}

@@ -74,6 +74,7 @@ int main()
                 wrefresh(my_win);
             }
         } else if(m.msg_type == MSG_TYPE_LIZARD_MOVEMENT){
+            
             lizardClient = findLizardClient(headLizardList, m.ch);
             if(lizardClient != NULL){
                 //// print("aaaaaaa");
@@ -127,7 +128,7 @@ int main()
                 //apagar o lagarto
                 wmove(my_win, lizardClient->position.position_x, lizardClient->position.position_y);
                 waddch(my_win,' ');
-                printf("LizardClient %c disconnected\n", m.ch);
+                // printf("LizardClient %c disconnected\n", m.ch);
                 //--------------------
                 for(i=0; i<5; i++)
                 {
@@ -137,7 +138,7 @@ int main()
                 wrefresh(my_win);
             }
         } else if(m.msg_type == MSG_TYPE_DISCONNECT){
-                printf("LizardClient %c disconnected11111111\n", m.ch);
+                // printf("LizardClient %c disconnected11111111\n", m.ch);
                 lizardClient = findLizardClient(headLizardList, m.ch);
 
                 wmove(my_win, lizardClient->position.position_x, lizardClient->position.position_y);
