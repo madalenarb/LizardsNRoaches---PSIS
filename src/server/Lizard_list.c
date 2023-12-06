@@ -10,6 +10,11 @@ LizardClient* initLizardClient(char id){
     newClient->id = id;
     newClient->position.position_x = WINDOW_SIZE/2;
     newClient->position.position_y = WINDOW_SIZE/2;
+    for (int i = 1; i < 5; i++) 
+    {
+        newClient->cauda_x[i] = 0;
+        newClient->cauda_y[i] = 0;
+    }
     newClient->score = 0;
     newClient->next = NULL;
     return newClient;
@@ -35,6 +40,10 @@ void printList(LizardClient* headLizardList){
     LizardClient* current = headLizardList;
     while(current != NULL){
         printf("id: %c, position: %d, %d, score: %d\n", current->id, current->position.position_x, current->position.position_y, current->score);
+        for(int i=0; i<5; i++)
+        {
+            printf("cauda_x[%d]=%d cauda_y[%d]=%d\n", i, current->cauda_x[i], i, current->cauda_y[i]);
+        }
         current = current->next;
     }
 }
