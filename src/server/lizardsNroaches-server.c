@@ -27,17 +27,9 @@ int main()
     //Linked list to manage Lizard clients
     LizardClient* headLizardList = NULL;
 
-    //char char_cauda= '.'; // quando for para imprimir os . descomenta-se
-    
-	initscr();		    	
-	cbreak();				
-    keypad(stdscr, TRUE);   
-	noecho();			    
+    WINDOW *my_win;
+    setupWindows(&my_win);
 
-    /* creates a window and draws a border */
-    WINDOW * my_win = newwin(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
-    box(my_win, 0 , 0);	
-	wrefresh(my_win);
     int flag = 0;
     do
     {

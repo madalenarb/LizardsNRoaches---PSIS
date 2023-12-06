@@ -6,6 +6,7 @@
 #include "Lizard_list.h"
 #include <assert.h>
 
+void setupWindows(WINDOW **my_win);
 void new_position(LizardClient* lizardClient);
 int getIdFromChar(char id_char);
 char getCharFromId(int id);

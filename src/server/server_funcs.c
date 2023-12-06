@@ -138,39 +138,45 @@ void new_position(LizardClient* lizardClient){
 
 
 
-// Iterate through the linked list of LizardClients and update the graphics for each client
-void updateGraphics(WINDOW *my_win, LizardClient* headLizardList) {
-    LizardClient* current = headLizardList;
-    while (current != NULL) {
-        wmove(my_win, current->position.position_x, current->position.position_y);
-        waddch(my_win, current->id | A_BOLD);
+void setupWindows(WINDOW **my_win){
+    initscr();			/* Start curses mode 		*/
+    cbreak();
+    keypad(stdscr, TRUE);
+    noecho();
+    *my_win = newwin(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
+    box(*my_win, 0 , 0);
+    wrefresh(*my_win);
+}
 
-        for (int i = 0; i < 5; i++) {
-            wmove(my_win, current->cauda_x[i], current->cauda_y[i]);
-            if (current->score < 50)
-                waddch(my_win, '.' | A_BOLD);
-            else
-                waddch(my_win, '*' | A_BOLD);
-        }
-
-        current = current->next;
+void renderLizard(WINDOW *my_win, LizardClient *lizardClient){
+    wmove(my_win, lizardClient->position.position_x, lizardClient->position.position_y);
+    waddch(my_win, lizardClient->id | A_BOLD);
+    for(int i = 0; i < 5; i++){
+        wmove(my_win, lizardClient->cauda_x[i], lizardClient->cauda_y[i]);
+        waddch(my_win, (lizardClient->score < 50) ? '.' | A_BOLD : '*' | A_BOLD);
     }
-
     wrefresh(my_win);
 }
 
-// Update the graphics when a LizardClient moves
-void updateGraphicsOnMove(WINDOW *my_win, LizardClient* lizardClient) {
+void cleanLizard(WINDOW *my_win, LizardClient *lizardClient){
     wmove(my_win, lizardClient->position.position_x, lizardClient->position.position_y);
-    waddch(my_win, lizardClient->id | A_BOLD);
-
-    for (int i = 0; i < 5; i++) {
+    waddch(my_win, ' ');
+    for(int i = 0; i < 5; i++){
         wmove(my_win, lizardClient->cauda_x[i], lizardClient->cauda_y[i]);
-        if (lizardClient->score < 50)
-            waddch(my_win, '.' | A_BOLD);
-        else
-            waddch(my_win, '*' | A_BOLD);
+        waddch(my_win, ' ');
     }
-
     wrefresh(my_win);
+}
+
+void updateAndRenderLizards(WINDOW *my_win, LizardClient *headLizardList){
+    LizardClient *currentLizard = headLizardList;
+    while(currentLizard != NULL){
+        //Update lizard position
+        cleanLizard(my_win, currentLizard);
+        new_position(currentLizard);
+
+        //Render updated lizard
+        renderLizard(my_win, currentLizard);
+        currentLizard = currentLizard->next;
+    }
 }
