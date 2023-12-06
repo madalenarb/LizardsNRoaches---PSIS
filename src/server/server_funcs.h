@@ -6,8 +6,9 @@
 #include "Lizard_list.h"
 #include <assert.h>
 
-void new_position(int* x, int *y, int cauda_x[], int cauda_y[], direction_t direction);
+void new_position(LizardClient* lizardClient);
 int getIdFromChar(char id_char);
 char getCharFromId(int id);
+void sigintHandler(int sig_num);
 
 #endif

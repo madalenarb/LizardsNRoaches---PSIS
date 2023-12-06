@@ -1,6 +1,7 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
+#include <string.h>
 #include <ncurses.h>
 #include <sys/types.h>
 #include <stdio.h>
@@ -12,7 +13,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include <zlib.h>
+// #include <zlib.h>
 
 
 #include "constants.h"
@@ -21,6 +22,9 @@
 #define MSG_TYPE_LIZARD_MOVEMENT 1
 #define MSG_TYPE_ROACHES_CONNECT 2
 #define MSG_TYPE_ROACHES_MOVEMENT 3
+#define MSG_TYPE_PASSWORD_REQUEST 4
+#define MSG_TYPE_CORRECT_PASSWORD 10
+#define MSG_TYPE_WRONG_PASSWORD -10
 #define MSG_TYPE_DISCONNECT -1
 
 typedef enum direction_t {UP, DOWN, LEFT, RIGHT} direction_t;
@@ -29,6 +33,7 @@ typedef struct message_t
 {   
     int msg_type; /* 0 join   1 - move */
     char ch;
+    char password[20];
     char id; // id given by the server, the client uses it to verify
     direction_t direction;
 } message_t;

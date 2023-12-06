@@ -1,130 +1,132 @@
 #include "server_funcs.h"
 
-void new_position(int* x, int *y, int cauda_x[], int cauda_y[], direction_t direction){
+void new_position(LizardClient* lizardClient){
         int i;
-        switch (direction)
+        switch (lizardClient->direction)
         {
         case UP:
-            (*x) --;
+            (lizardClient->position.position_x)--;
             for (i=0;i<5;i++) //a cauda fica na mesma direção da cabeça
             {
-                cauda_y[i]=*y;
+                lizardClient->cauda_y[i]=lizardClient->position.position_y;
             }
-            if(*x ==0){ //caso va contra a parede
+            if(lizardClient->position.position_x ==0){ //caso va contra a parede
                 
                 for(i=0;i<5;i++)
                 {
-                    cauda_x[i]=i+2;
+                    lizardClient->cauda_x[i]=i+2;
                 }
-                *x = 7; //5 da cauda + 2
+               (lizardClient->position.position_x)++; //5 da cauda + 2
             }
-            else if(*x==WINDOW_WIDTH-2 || *x==WINDOW_HEIGHT-3 || *x==WINDOW_WIDTH-4 || *x==WINDOW_WIDTH-5|| *x==WINDOW_WIDTH-6) //para a cauda ficar dentro da janela
+            else if(lizardClient->position.position_x==WINDOW_WIDTH-2 || lizardClient->position.position_x==WINDOW_HEIGHT-3 || lizardClient->position.position_x==WINDOW_WIDTH-4 || lizardClient->position.position_x==WINDOW_WIDTH-5|| lizardClient->position.position_x==WINDOW_WIDTH-6) //para a cauda ficar dentro da janela
             {
-                *x = WINDOW_WIDTH-7;
+                lizardClient->position.position_x = WINDOW_WIDTH-7;
                 for (i=0;i<5;i++)
                 {
-                    cauda_x[i]=WINDOW_WIDTH-2-i;
+                    lizardClient->cauda_x[i]=WINDOW_WIDTH-2-i;
                 }
             }
             else
             { 
                 for (i=0;i<5;i++)
                 {
-                    cauda_x[i]= (*x)+i+1;
+                    lizardClient->cauda_x[i]= (lizardClient->position.position_x)+i+1;
                 }
             }
             break;
 
         case DOWN:
-            (*x) ++;
+            (lizardClient->position.position_x) ++;
             for (i=0;i<5;i++) //a cauda fica na mesma direção da cabeça
             {
-                cauda_y[i]=*y;
+                lizardClient->cauda_y[i]=lizardClient->position.position_y;
             }
 
-            if(*x ==WINDOW_WIDTH-1) //caso va contra a parede
+            if(lizardClient->position.position_x ==WINDOW_WIDTH-1) //caso va contra a parede
             {
                 for(i=0;i<5;i++)
                 {
-                    cauda_x[i]=WINDOW_WIDTH-i-3;
+                    lizardClient->cauda_x[i]=WINDOW_WIDTH-i-3;
                 }
-                *x = WINDOW_WIDTH-8;
+                (lizardClient->position.position_x)--;
             }
-            else if (*x==1 || *x==2 || *x==3 || *x==4 || *x==5) //para a cauda ficar dentro da janela
+            else if (lizardClient->position.position_x==1 || lizardClient->position.position_x==2 || lizardClient->position.position_x==3 || lizardClient->position.position_x==4 || lizardClient->position.position_x==5) //para a cauda ficar dentro da janela
             {
-                *x = 6;
+                lizardClient->position.position_x = 6;
                 for (i=0;i<5;i++)
                 {
-                    cauda_x[i]=i+1;
+                    lizardClient->cauda_x[i]=i+1;
                 }
             }
             else
             {
                 for (i=0;i<5;i++)
                 {
-                    cauda_x[i]= (*x)-i-1;
+                    lizardClient->cauda_x[i]= (lizardClient->position.position_x)-i-1;
                 }
             }
             break;
         case LEFT:
-            (*y) --;
+            (lizardClient->position.position_y) --;
+            //printf("position_y: %d\n", lizardClient->position.position_y);
             for (i=0;i<5;i++) //a cauda fica na mesma direção da cabeça
             {
-                cauda_x[i]=*x;
+                lizardClient->cauda_x[i]=lizardClient->position.position_x;
             }
-            if(*y ==0) //caso va contra a parede
+            if(lizardClient->position.position_y ==0) //caso va contra a parede
             {
                 for(i=0;i<5;i++)
                 {
-                    cauda_y[i]=i+2;
+                    lizardClient->cauda_y[i]=i+2;
                 }
-                *y = 7; //5 da cauda + 2
+                (lizardClient->position.position_y)++; //5 da cauda + 2
             }
-            else if(*y==WINDOW_HEIGHT-2 || *y==WINDOW_HEIGHT-3 || *y==WINDOW_HEIGHT-4 || *y==WINDOW_HEIGHT-5 || *y==WINDOW_HEIGHT-6 ) //para a cauda ficar dentro da janela
+            else if(lizardClient->position.position_y==WINDOW_HEIGHT-2 || lizardClient->position.position_y==WINDOW_HEIGHT-3 || lizardClient->position.position_y==WINDOW_HEIGHT-4 || lizardClient->position.position_y==WINDOW_HEIGHT-5 || lizardClient->position.position_y==WINDOW_HEIGHT-6 ) //para a cauda ficar dentro da janela
             {
-                *y = WINDOW_HEIGHT-7;
+                lizardClient->position.position_y = WINDOW_HEIGHT-7;
                 for (i=0;i<5;i++)
                 {
-                    cauda_y[i]=WINDOW_HEIGHT-2-i;
+                    lizardClient->cauda_y[i]=WINDOW_HEIGHT-2-i;
                 }
             }
             else
             { 
                 for (i=0;i<5;i++)
                 {
-                    cauda_y[i]= (*y)+i+1;
+                    lizardClient->cauda_y[i]= (lizardClient->position.position_y)+i+1;
                 }
             }
             break;
 
         case RIGHT:
-            (*y) ++;
+            (lizardClient->position.position_y) ++;
+            //printf("position_y: %d\n", lizardClient->position.position_y);
             for (i=0;i<5;i++) //a cauda fica na mesma direção da cabeça
             {
-                cauda_x[i]=*x;
+                lizardClient->cauda_x[i]=lizardClient->position.position_x;
             }
 
-            if(*y ==WINDOW_HEIGHT-1) //caso va contra a parede
+            if(lizardClient->position.position_y ==WINDOW_HEIGHT-1) //caso va contra a parede
             {
                 for(i=0;i<5;i++)
                 {
-                    cauda_y[i]=WINDOW_HEIGHT-i-3;
+                    lizardClient->cauda_y[i]=WINDOW_HEIGHT-i-3;
                 }
-                *y = WINDOW_HEIGHT-8;
+                (lizardClient->position.position_y) --;
             }
-            else if (*y==1 || *y==2 || *y==3 || *y==4 || *y==5) //para a cauda ficar dentro da janela
+            else if (lizardClient->position.position_y==1 || lizardClient->position.position_y==2 || lizardClient->position.position_y==3 || lizardClient->position.position_y==4 || lizardClient->position.position_y==5) //para a cauda ficar dentro da janela
             {
-                *y = 6;
+                lizardClient->position.position_y = 6;
                 for (i=0;i<5;i++)
                 {
-                    cauda_y[i]=i+1;
+                    lizardClient->cauda_y[i]=i+1;
                 }
             }
             else
             {
                 for (i=0;i<5;i++)
                 {
-                    cauda_y[i]= (*y)-i-1;
+                    lizardClient->cauda_y[i]= (lizardClient->position.position_y)-i-1;
                 }
             }
             break;
@@ -134,12 +136,5 @@ void new_position(int* x, int *y, int cauda_x[], int cauda_y[], direction_t dire
         }
     }
 
-int getIdFromChar(char id_char){
-    // Get from an algorithm the ID from the char
-    return (((int)id_char + 10042) * 7) % 100128;
-}
 
-char getCharFromId(int id){
-    //Get from an algorith the char from the ID (reverse of getIdFromChar)
-    return (char)(id/7 - 10042);
-}
+

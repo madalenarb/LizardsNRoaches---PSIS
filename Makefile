@@ -14,6 +14,11 @@ lizard-client:
 roach-client:
 	@$(MAKE) -C src/roaches-client
 
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes all
+
+getPid:
+	lsof -i :5555
 
 clean:
 	@$(MAKE) -C common clean

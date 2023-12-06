@@ -10,10 +10,22 @@ LizardClient* initLizardClient(char id){
     newClient->id = id;
     newClient->position.position_x = WINDOW_WIDTH/2;
     newClient->position.position_y = WINDOW_HEIGHT/2;
-    for (int i = 1; i < 5; i++) 
+    newClient->direction = rand() % 4;
+    for (int i = 1; i < 6; i++) 
     {
-        newClient->cauda_x[i] = 0;
-        newClient->cauda_y[i] = 0;
+        if(newClient->direction == UP){
+            newClient->cauda_x[i-1] = newClient->position.position_x;
+            newClient->cauda_y[i-1] = newClient->position.position_y + i;
+        } else if(newClient->direction == DOWN){
+            newClient->cauda_x[i-1] = newClient->position.position_x;
+            newClient->cauda_y[i-1] = newClient->position.position_y - i;
+        } else if(newClient->direction == LEFT){
+            newClient->cauda_x[i-1] = newClient->position.position_x + i;
+            newClient->cauda_y[i-1] = newClient->position.position_y;
+        } else if(newClient->direction == RIGHT){
+            newClient->cauda_x[i-1] = newClient->position.position_x - i;
+            newClient->cauda_y[i-1] = newClient->position.position_y;
+        }
     }
     newClient->score = 0;
     newClient->next = NULL;
@@ -50,6 +62,7 @@ void printList(LizardClient* headLizardList){
 
 // Disconect a LizardClient from the list
 void disconnectLizardClient(LizardClient** headLizardList, char id){
+    // printf("disconnecting lizard %c\n", id);
     LizardClient* current = *headLizardList, *prev;
     if(current != NULL && current->id == id){
         *headLizardList = current->next;
@@ -63,6 +76,7 @@ void disconnectLizardClient(LizardClient** headLizardList, char id){
     if(current == NULL) return;
     prev->next = current->next;
     free(current);
+    // printf("disconnected lizard %c\n", id);
 }
 
 // Free the list of LizardClient

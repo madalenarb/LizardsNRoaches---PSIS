@@ -7,11 +7,11 @@
 typedef struct LizardClient{
     char id; // id of the Lizard client
     position_t position; // position of the Lizard client
+    direction_t direction; // direction of the Lizard client
     int cauda_x[5]; // x position of tail elements 
     int cauda_y[5]; // y position of tail elements
     int score; // score of the Lizard client
-    int connected; // 1 if connected, 0 if disconnected char ch; // character of the Lizard client
-
+    int connected; // 1 if connected, 0 if disconnected
     struct LizardClient *next; // pointer to the next Lizard client
 } LizardClient;
 
