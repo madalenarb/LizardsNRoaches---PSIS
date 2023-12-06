@@ -92,7 +92,7 @@ void new_position(int* x, int *y, int cauda_x[], int cauda_y[], direction_t dire
             { 
                 for (i=0;i<5;i++)
                 {
-                    cauda_y[i]= (*x)+i+1;
+                    cauda_y[i]= (*y)+i+1;
                 }
             }
             break;
@@ -124,7 +124,7 @@ void new_position(int* x, int *y, int cauda_x[], int cauda_y[], direction_t dire
             {
                 for (i=0;i<5;i++)
                 {
-                    cauda_y[i]= (*x)-i-1;
+                    cauda_y[i]= (*y)-i-1;
                 }
             }
             break;

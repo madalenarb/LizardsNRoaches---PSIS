@@ -23,9 +23,9 @@ int main()
     //Linked list to manage Lizard clients
     LizardClient* headLizardList = NULL;
 
-    char char_cauda= '.'; //que depois quando atingir 50 de score vai ser alterado para '*'
-    int cauda_x[5]={0}; //coordenadas da cauda e inicializados a 0
-    int cauda_y[5]={0};
+    //char char_cauda= '.'; // quando for para imprimir os . descomenta-se
+    //int cauda_x[5]={0}; //coordenadas da cauda e inicializados a 0
+    //int cauda_y[5]={0};
 
 	initscr();		    	
 	cbreak();				
@@ -53,15 +53,22 @@ int main()
             LizardClient* lizardClient = findLizardClient(headLizardList, m.ch);
             if(lizardClient != NULL){
                 //Calculates new mark position
-                new_position(&lizardClient->position.position_x, &lizardClient->position.position_y,cauda_x,cauda_y, m.direction);
-            } 
+                //new_position(&lizardClient->position.position_x, &lizardClient->position.position_y,cauda_x,cauda_y, m.direction);
+		new_position(&lizardClient->position.position_x, &lizardClient->position.position_y,lizardClient->cauda_x,lizardClient->cauda_y, m.direction);
+            } else {
+                printf("LizardClient not found\n");
+            }
         } else if(m.msg_type == MSG_TYPE_DISCONNECT){
             disconnectLizardClient(&headLizardList, m.ch);
             // printf("LizardClient %c disconnected\n", m.ch);
         }
 
         /* draw mark on new position */	
-        // printList(headLizardList);
+        printList(headLizardList);
+	/*for(int i=0; i<5; i++)
+        {
+            printf("cauda_x[%d]=%d cauda_y[%d]=%d\n", i, cauda_x[i], i, cauda_y[i]);
+        }*/
         zmq_send(socket, "OK", 2, 0);
         if(headLizardList == NULL){
             flag = -1;
