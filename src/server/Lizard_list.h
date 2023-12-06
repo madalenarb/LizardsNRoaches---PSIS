@@ -8,6 +8,7 @@ typedef struct LizardClient{
     char id; // id of the Lizard client
     position_t position; // position of the Lizard client
     int score; // score of the Lizard client
+    int connected; // 1 if connected, 0 if disconnected
 
     struct LizardClient *next; // pointer to the next Lizard client
 } LizardClient;

@@ -18,12 +18,12 @@ void new_position(int* x, int *y, int cauda_x[], int cauda_y[], direction_t dire
                 }
                 *x = 7; //5 da cauda + 2
             }
-            else if(*x==WINDOW_SIZE-2 || *x==WINDOW_SIZE-3 || *x==WINDOW_SIZE-4 || *x==WINDOW_SIZE-5|| *x==WINDOW_SIZE-6) //para a cauda ficar dentro da janela
+            else if(*x==WINDOW_WIDTH-2 || *x==WINDOW_HEIGHT-3 || *x==WINDOW_WIDTH-4 || *x==WINDOW_WIDTH-5|| *x==WINDOW_WIDTH-6) //para a cauda ficar dentro da janela
             {
-                *x = WINDOW_SIZE-7;
+                *x = WINDOW_WIDTH-7;
                 for (i=0;i<5;i++)
                 {
-                    cauda_x[i]=WINDOW_SIZE-2-i;
+                    cauda_x[i]=WINDOW_WIDTH-2-i;
                 }
             }
             else
@@ -42,13 +42,13 @@ void new_position(int* x, int *y, int cauda_x[], int cauda_y[], direction_t dire
                 cauda_y[i]=*y;
             }
 
-            if(*x ==WINDOW_SIZE-1) //caso va contra a parede
+            if(*x ==WINDOW_WIDTH-1) //caso va contra a parede
             {
                 for(i=0;i<5;i++)
                 {
-                    cauda_x[i]=WINDOW_SIZE-i-3;
+                    cauda_x[i]=WINDOW_WIDTH-i-3;
                 }
-                *x = WINDOW_SIZE-8;
+                *x = WINDOW_WIDTH-8;
             }
             else if (*x==1 || *x==2 || *x==3 || *x==4 || *x==5) //para a cauda ficar dentro da janela
             {
@@ -80,12 +80,12 @@ void new_position(int* x, int *y, int cauda_x[], int cauda_y[], direction_t dire
                 }
                 *y = 7; //5 da cauda + 2
             }
-            else if(*y==WINDOW_SIZE-2 || *y==WINDOW_SIZE-3 || *y==WINDOW_SIZE-4 || *y==WINDOW_SIZE-5 || *y==WINDOW_SIZE-6 ) //para a cauda ficar dentro da janela
+            else if(*y==WINDOW_HEIGHT-2 || *y==WINDOW_HEIGHT-3 || *y==WINDOW_HEIGHT-4 || *y==WINDOW_HEIGHT-5 || *y==WINDOW_HEIGHT-6 ) //para a cauda ficar dentro da janela
             {
-                *y = WINDOW_SIZE-7;
+                *y = WINDOW_HEIGHT-7;
                 for (i=0;i<5;i++)
                 {
-                    cauda_y[i]=WINDOW_SIZE-2-i;
+                    cauda_y[i]=WINDOW_HEIGHT-2-i;
                 }
             }
             else
@@ -104,13 +104,13 @@ void new_position(int* x, int *y, int cauda_x[], int cauda_y[], direction_t dire
                 cauda_x[i]=*x;
             }
 
-            if(*y ==WINDOW_SIZE-1) //caso va contra a parede
+            if(*y ==WINDOW_HEIGHT-1) //caso va contra a parede
             {
                 for(i=0;i<5;i++)
                 {
-                    cauda_y[i]=WINDOW_SIZE-i-3;
+                    cauda_y[i]=WINDOW_HEIGHT-i-3;
                 }
-                *y = WINDOW_SIZE-8;
+                *y = WINDOW_HEIGHT-8;
             }
             else if (*y==1 || *y==2 || *y==3 || *y==4 || *y==5) //para a cauda ficar dentro da janela
             {

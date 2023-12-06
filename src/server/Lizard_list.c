@@ -8,8 +8,8 @@ LizardClient* initLizardClient(char id){
         exit(EXIT_FAILURE);
     }
     newClient->id = id;
-    newClient->position.position_x = WINDOW_SIZE/2;
-    newClient->position.position_y = WINDOW_SIZE/2;
+    newClient->position.position_x = WINDOW_WIDTH/2;
+    newClient->position.position_y = WINDOW_HEIGHT/2;
     newClient->score = 0;
     newClient->next = NULL;
     return newClient;

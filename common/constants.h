@@ -1,1 +1,2 @@
-#define WINDOW_SIZE 30
+#define WINDOW_WIDTH 30
+#define WINDOW_HEIGHT 30
