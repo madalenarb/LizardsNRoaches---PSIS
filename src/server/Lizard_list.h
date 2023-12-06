@@ -5,7 +5,7 @@
 #include "../../common/constants.h"
 
 typedef struct LizardClient{
-    char id; // id of the Lizard client
+    int id; // id of the Lizard client
     position_t position; // position of the Lizard client
     int score; // score of the Lizard client
     int connected; // 1 if connected, 0 if disconnected
