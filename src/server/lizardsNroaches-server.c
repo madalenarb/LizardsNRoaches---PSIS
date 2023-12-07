@@ -1,5 +1,6 @@
 #include "server_funcs.h"
 
+
 /*
 #include <ncurses.h>
 #include <unistd.h>
@@ -15,6 +16,8 @@ int main()
 {
     signal(SIGINT, handle_signal);
     message_t m;
+    
+    int NroachesTotal=0; // 30*30/3=300(numero de roaches total )
     // int id = 0;
 	void *context = zmq_ctx_new();
     void *socket = zmq_socket(context, ZMQ_REP);
@@ -24,6 +27,7 @@ int main()
 
     //Linked list to manage Lizard clients
     LizardClient* headLizardList = NULL;
+    roach_message_t roach_msg;
 
     WINDOW *my_win;
     setupWindows(&my_win);
@@ -46,6 +50,14 @@ int main()
         case MSG_TYPE_DISCONNECT:
             // printList(headLizardList);
             handleLizardDisconnect(my_win, &headLizardList, &m, socket);
+            break;
+
+        case MSG_TYPE_ROACHES_CONNECT:
+            handleRoachesConnect(my_win, &roach_msg, &m, socket, &NroachesTotal);
+            break;
+
+        case MSG_TYPE_ROACHES_MOVEMENT:
+            handleRoachesMovement(my_win, &roach_msg, &m, socket); 
             break;
 
         default:
