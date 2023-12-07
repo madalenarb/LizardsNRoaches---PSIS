@@ -46,7 +46,6 @@ int main()
         case MSG_TYPE_LIZARD_MOVEMENT:
             lizardClient = findLizardClient(headLizardList, m.ch);
             handleLizardMovement(my_win, &headLizardList, &m, socket, &n_lizards);
-            updateAndRenderaLizard(my_win, lizardClient);
             break;
         
         case MSG_TYPE_DISCONNECT:

@@ -210,6 +210,7 @@ void handleLizardMovement(WINDOW *my_win, LizardClient **headLizardList, message
         lizardClient->direction = m->direction;
         m->msg_type = MSG_TYPE_ACK;
         zmq_send(socket, m, sizeof(*m), 0);
+        updateAndRenderaLizard(my_win, lizardClient);
     } else {
         forceLizardDisconnect(m, socket);
     }
