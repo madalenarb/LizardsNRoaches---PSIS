@@ -36,6 +36,7 @@ typedef struct message_t
     char password[20];
     int N_roaches; //
     int score_roaches[10];
+    int i; //para saber as coordenadas
     char id; // id given by the server, the client uses it to verify
     direction_t direction;
 } message_t;
