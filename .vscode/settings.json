@@ -11,6 +11,7 @@
         "zlib.h": "c",
         "thread": "c",
         "unordered_map": "c",
-        "unordered_set": "c"
+        "unordered_set": "c",
+        "lizard-funcs.h": "c"
     }
 }

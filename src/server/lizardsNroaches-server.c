@@ -14,10 +14,7 @@
 int main()
 {
     signal(SIGINT, handle_signal);
-    int n_lizards = 0;
-    int i;
     message_t m;
-    LizardClient* lizardClient;
     // int id = 0;
 	void *context = zmq_ctx_new();
     void *socket = zmq_socket(context, ZMQ_REP);
@@ -31,7 +28,6 @@ int main()
     WINDOW *my_win;
     setupWindows(&my_win);
 
-    int flag = 0;
     do
     {
         // print("Waiting for message\n");
@@ -40,17 +36,16 @@ int main()
         switch (m.msg_type)
         {
         case MSG_TYPE_LIZARD_CONNECT:
-            handleLizardConnect(my_win, &headLizardList, &m, socket, &n_lizards);
+            handleLizardConnect(my_win, &headLizardList, &m, socket);
             break;
         
         case MSG_TYPE_LIZARD_MOVEMENT:
-            lizardClient = findLizardClient(headLizardList, m.ch);
-            handleLizardMovement(my_win, &headLizardList, &m, socket, &n_lizards);
+            handleLizardMovement(my_win, &headLizardList, &m, socket);
             break;
         
         case MSG_TYPE_DISCONNECT:
             // printList(headLizardList);
-            handleLizardDisconnect(my_win, &headLizardList, &m, socket, &n_lizards);
+            handleLizardDisconnect(my_win, &headLizardList, &m, socket);
             break;
 
         default:

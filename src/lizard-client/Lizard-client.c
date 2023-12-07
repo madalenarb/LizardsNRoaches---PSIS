@@ -3,6 +3,7 @@
 int main()
 {
     message_t ACK_server;
+    signal(SIGINT, handle_signal);
     // Initialize the ZeroMQ context and socket
     void *context = zmq_ctx_new();
     void *socket = zmq_socket(context, ZMQ_REQ);
@@ -62,9 +63,7 @@ int main()
             zmq_recv(socket, &m, 3, 0);  
         }
         refresh();			/* Print it on to the real screen */
-    }while(key != 'q');
-        
-    
+    }while(key != 'q' && !flag_exit);
   	endwin();			/* End curses mode		  */
     m.msg_type = MSG_TYPE_DISCONNECT;
     printf("Sending disconnect message %d\n", m.msg_type);
