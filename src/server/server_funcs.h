@@ -9,6 +9,7 @@
 void setupWindows(WINDOW **my_win);
 void renderLizard(WINDOW *my_win, LizardClient *lizardClient);
 void cleanLizard(WINDOW *my_win, LizardClient *lizardClient);
+void updateAndRenderaLizard(WINDOW *my_win, LizardClient *lizardClient);
 void updateAndRenderLizards(WINDOW *my_win, LizardClient *headLizardList);
 void new_position(LizardClient* lizardClient);
 int getIdFromChar(char id_char);

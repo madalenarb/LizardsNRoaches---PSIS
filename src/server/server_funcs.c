@@ -166,14 +166,20 @@ void cleanLizard(WINDOW *my_win, LizardClient *lizardClient){
     wrefresh(my_win);
 }
 
+void updateAndRenderaLizard(WINDOW *my_win, LizardClient *lizardClient){
+    //Update lizard position
+    cleanLizard(my_win, lizardClient);
+    new_position(lizardClient);
+
+    //Render updated lizard
+    renderLizard(my_win, lizardClient);
+}
+
+
 void updateAndRenderLizards(WINDOW *my_win, LizardClient *headLizardList){
     LizardClient *currentLizard = headLizardList;
     while(currentLizard != NULL){
         //Update lizard position
-        cleanLizard(my_win, currentLizard);
-        new_position(currentLizard);
-
-        //Render updated lizard
         renderLizard(my_win, currentLizard);
         currentLizard = currentLizard->next;
     }
@@ -199,6 +205,7 @@ void handleLizardConnect(WINDOW *my_win, LizardClient **headLizardList, message_
 
 void handleLizardMovement(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket, int *n_lizards){
     LizardClient *lizardClient = findLizardClient(*headLizardList, m->ch);
+    // printList(*headLizardList);
     if(lizardClient != NULL){
         lizardClient->direction = m->direction;
         m->msg_type = MSG_TYPE_ACK;
@@ -224,8 +231,8 @@ void disconnectAllLizards(LizardClient **headLizardList, void *socket) {
     while (currentLizard != NULL) {
         
         // Send a message before disconnecting
-        message_t m;
-        zmq_recv(socket, &m, sizeof(m), 0);
+        // message_t m;
+        // zmq_recv(socket, &m, sizeof(m), 0);
         
         // Disconnect lizard
         message_t disconnectMessage;
