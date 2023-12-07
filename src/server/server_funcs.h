@@ -4,6 +4,7 @@
 #include "../../common/constants.h"
 #include "../../common/protocol.h"
 #include "Lizard_list.h"
+//#include "roache_list.h"
 #include <assert.h>
 
 void setupWindows(WINDOW **my_win);
@@ -18,5 +19,7 @@ void handleLizardConnect(WINDOW *my_win, LizardClient **headLizardList, message_
 void handleLizardMovement(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket);
 void handleLizardDisconnect(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket);
 void disconnectAllLizards(LizardClient **headLizardList, void *socket);
+void handleRoachesConnect(WINDOW *my_win, roach_message_t *roach_msg, message_t *m, void *socket, int *NroachesTotal);
+void handleRoachesMovement(WINDOW *my_win, roach_message_t *roach_msg,message_t *m, void *socket);
 
 #endif
