@@ -21,7 +21,6 @@ int main()
     m.msg_type = MSG_TYPE_LIZARD_CONNECT;
     m.ch = ch;
     m.direction = -1;
-    printf("Sending connection message %d, %c\n", m.msg_type, m.ch);
     zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, &ACK_server, sizeof(message_t), 0);
     if(ACK_server.msg_type == MSG_TYPE_DISCONNECT){
