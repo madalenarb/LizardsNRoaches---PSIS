@@ -134,8 +134,33 @@ void new_position(LizardClient* lizardClient){
         }
     }
 
-
-
+void new_position_roaches(int* x, int *y, direction_t direction){
+        switch (direction)
+        {
+        case UP:
+            (*x) --;
+            if(*x ==0)
+                *x = 2;
+            break;
+        case DOWN:
+            (*x) ++;
+            if(*x ==WINDOW_WIDTH-1)
+                *x = WINDOW_WIDTH-3;
+            break;
+        case LEFT:
+            (*y) --;
+            if(*y ==0)
+                *y = 2;
+            break;
+        case RIGHT:
+            (*y) ++;
+            if(*y ==WINDOW_WIDTH-1)
+                *y = WINDOW_WIDTH-3;
+            break;
+        default:
+            break;
+        }
+}
 void setupWindows(WINDOW **my_win){
     initscr();			/* Start curses mode 		*/
     cbreak();
@@ -223,6 +248,57 @@ void handleLizardDisconnect(WINDOW *my_win, LizardClient **headLizardList, messa
         cleanLizard(my_win, lizardClient);
         disconnectLizardClient(headLizardList, m->ch);
     }
+}
+
+void handleRoachesConnect(WINDOW *my_win, roach_message_t *roach_msg, message_t *m, void *socket, int *NroachesTotal)
+{
+    *NroachesTotal=*NroachesTotal+ m->N_roaches;
+    if(*NroachesTotal>((WINDOW_HEIGHT*WINDOW_WIDTH)/3)){
+        forceLizardDisconnect(m, socket);
+    } 
+    else
+    {
+        m->msg_type = MSG_TYPE_ACK;
+        zmq_send(socket, m, sizeof(*m), 0);
+        //addLizardClient(headLizardList, m->ch);
+        //LizardClient *newLizard = findLizardClient(*headLizardList, m->ch);
+        //renderLizard(my_win, newLizard);
+        for (int i = 0; i < m->N_roaches; i++) {
+            // Preencher as coordenadas aleatórias
+            roach_msg->roach_positions_x[i] = rand() % WINDOW_WIDTH;
+            roach_msg->roach_positions_y[i] = rand() % WINDOW_WIDTH;
+            
+            //representa-os no grafico
+            wmove(my_win, roach_msg->roach_positions_x[i],roach_msg->roach_positions_y[i]);
+            waddch(my_win, m->score_roaches[i] | A_BOLD);
+        }
+        wrefresh(my_win);
+
+    }
+}
+
+void handleRoachesMovement(WINDOW *my_win, roach_message_t *roach_msg,message_t *m, void *socket)
+{
+
+    roach_msg->direction = m->direction;
+    m->msg_type = MSG_TYPE_ACK;
+    zmq_send(socket, m, sizeof(*m), 0);
+    
+    wmove(my_win, lizardClient->position.position_x, lizardClient->position.position_y);
+    waddch(my_win, ' ');
+    for(int i = 0; i < 5; i++){
+        wmove(my_win, lizardClient->cauda_x[i], lizardClient->cauda_y[i]);
+        waddch(my_win, ' ');
+    }
+    wrefresh(my_win);
+    //updateAndRenderaLizard(my_win, roach_message_t);
+    cleanLizard(my_win, lizardClient);
+    new_position(lizardClient);
+
+
+    
+
+ 
 }
 
 void disconnectAllLizards(LizardClient **headLizardList, void *socket) {
