@@ -68,7 +68,6 @@ void new_position(LizardClient* lizardClient){
             break;
         case LEFT:
             (lizardClient->position.position_y) --;
-            //printf("position_y: %d\n", lizardClient->position.position_y);
             for (i=0;i<5;i++) //a cauda fica na mesma direção da cabeça
             {
                 lizardClient->cauda_x[i]=lizardClient->position.position_x;
@@ -100,7 +99,6 @@ void new_position(LizardClient* lizardClient){
 
         case RIGHT:
             (lizardClient->position.position_y) ++;
-            //printf("position_y: %d\n", lizardClient->position.position_y);
             for (i=0;i<5;i++) //a cauda fica na mesma direção da cabeça
             {
                 lizardClient->cauda_x[i]=lizardClient->position.position_x;
@@ -150,7 +148,7 @@ void setupWindows(WINDOW **my_win){
 
 void renderLizard(WINDOW *my_win, LizardClient *lizardClient){
     wmove(my_win, lizardClient->position.position_x, lizardClient->position.position_y);
-    waddch(my_win, lizardClient->id | A_BOLD);
+    waddch(my_win, lizardClient->id | A_BOLD);	
     for(int i = 0; i < 5; i++){
         wmove(my_win, lizardClient->cauda_x[i], lizardClient->cauda_y[i]);
         waddch(my_win, (lizardClient->score < 50) ? '.' | A_BOLD : '*' | A_BOLD);
@@ -179,4 +177,65 @@ void updateAndRenderLizards(WINDOW *my_win, LizardClient *headLizardList){
         renderLizard(my_win, currentLizard);
         currentLizard = currentLizard->next;
     }
+}
+
+void forceLizardDisconnect(message_t *m, void *socket){
+    m->msg_type = MSG_TYPE_DISCONNECT;
+    zmq_send(socket, m, sizeof(*m), 0);
+}
+
+void handleLizardConnect(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket, int *n_lizards){
+    if(findLizardClient(*headLizardList, m->ch) != NULL){
+        forceLizardDisconnect(m, socket);
+    } else {
+        m->msg_type = MSG_TYPE_ACK;
+        zmq_send(socket, m, sizeof(*m), 0);
+        addLizardClient(headLizardList, m->ch);
+        (*n_lizards)++;
+        LizardClient *newLizard = findLizardClient(*headLizardList, m->ch);
+        renderLizard(my_win, newLizard);
+    }
+}
+
+void handleLizardMovement(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket, int *n_lizards){
+    LizardClient *lizardClient = findLizardClient(*headLizardList, m->ch);
+    if(lizardClient != NULL){
+        lizardClient->direction = m->direction;
+        m->msg_type = MSG_TYPE_ACK;
+        zmq_send(socket, m, sizeof(*m), 0);
+    } else {
+        forceLizardDisconnect(m, socket);
+    }
+}
+
+void handleLizardDisconnect(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket, int *n_lizards){
+    LizardClient *lizardClient = findLizardClient(*headLizardList, m->ch);
+    if(lizardClient != NULL){
+        m->msg_type = MSG_TYPE_DISCONNECT;
+        zmq_send(socket, m, sizeof(*m), 0);
+        cleanLizard(my_win, lizardClient);
+        disconnectLizardClient(headLizardList, m->ch);
+        (*n_lizards)--;
+    }
+}
+
+void disconnectAllLizards(LizardClient **headLizardList, void *socket) {
+    LizardClient *currentLizard = *headLizardList;
+    while (currentLizard != NULL) {
+        
+        // Send a message before disconnecting
+        message_t m;
+        zmq_recv(socket, &m, sizeof(m), 0);
+        
+        // Disconnect lizard
+        message_t disconnectMessage;
+        disconnectMessage.msg_type = MSG_TYPE_DISCONNECT;
+        disconnectMessage.ch = currentLizard->id;
+        zmq_send(socket, &disconnectMessage, sizeof(disconnectMessage), 0);
+        
+        // Clean and disconnect
+        disconnectLizardClient(headLizardList, currentLizard->id);
+        currentLizard = currentLizard->next;
+    }
+    freeList(headLizardList);
 }

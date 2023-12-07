@@ -25,3 +25,5 @@ Afinal o display e o server vão mostrar o mesmo? qual é a diferença?
 if rc==0 failes:
 lsof -i :5555
 kill -9 PID
+
+kill -9 264919
