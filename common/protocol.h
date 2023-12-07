@@ -34,6 +34,8 @@ typedef struct message_t
     int msg_type; /* 0 join   1 - move */
     char ch;
     char password[20];
+    int N_roaches; //
+    int score_roaches[10];
     char id; // id given by the server, the client uses it to verify
     direction_t direction;
 } message_t;
