@@ -1,5 +1,4 @@
 #include "server_funcs.h"
-//#include "roache_list.h"
 
 /*
 #include <ncurses.h>
@@ -27,7 +26,9 @@ int main()
 
     //Linked list to manage Lizard clients
     LizardClient* headLizardList = NULL;
-    roach_message_t roach_msg;
+
+    //Roach array to manage Roach clients
+    RoachClient *roach_array_ptr = initRoachArray();
 
     WINDOW *my_win;
     setupWindows(&my_win);
@@ -53,17 +54,18 @@ int main()
             break;
 
         case MSG_TYPE_ROACHES_CONNECT:
-            handleRoachesConnect(my_win, &roach_msg, &m, socket, &NroachesTotal);
+            handleRoachesConnect(my_win, roach_array_ptr, &m, socket, &NroachesTotal);
             break;
 
         case MSG_TYPE_ROACHES_MOVEMENT:
-            handleRoachesMovement(my_win, &roach_msg, &m, socket); 
+            handleRoachMovement(my_win, roach_array_ptr, &m, socket, &NroachesTotal); 
             break;
 
         default:
             break;
         }
         updateAndRenderLizards(my_win, headLizardList);
+        updateAndRenderRoaches(my_win, roach_array_ptr, NroachesTotal);
 
     } while (!flag_exit);
   	endwin();			/* End curses mode		  */

@@ -12,6 +12,8 @@
         "thread": "c",
         "unordered_map": "c",
         "unordered_set": "c",
-        "lizard-funcs.h": "c"
+        "lizard-funcs.h": "c",
+        "roach_array.h": "c",
+        "assert.h": "c"
     }
 }

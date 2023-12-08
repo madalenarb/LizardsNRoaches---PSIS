@@ -100,3 +100,14 @@ LizardClient* findLizardClient(LizardClient* headLizardList, char id){
     }
     return NULL;
 }
+
+LizardClient* findLizardClientbyLocation(LizardClient* headLizardList, int x, int y){
+    LizardClient* current = headLizardList;
+    while(current != NULL){
+        if(current->position.position_x == x && current->position.position_y == y){
+            return current;
+        }
+        current = current->next;
+    }
+    return NULL;
+}

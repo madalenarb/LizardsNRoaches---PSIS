@@ -1,4 +1,5 @@
 #include "protocol.h"
+
 volatile sig_atomic_t flag_exit = 0;
 
 void handle_signal(int signum) {
@@ -6,3 +7,4 @@ void handle_signal(int signum) {
         flag_exit = 1;
     }
 }
+

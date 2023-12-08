@@ -1,2 +1,4 @@
 #define WINDOW_WIDTH 30
 #define WINDOW_HEIGHT 30
+
+#define MAX_ROACHES 300

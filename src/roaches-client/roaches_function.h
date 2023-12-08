@@ -3,5 +3,6 @@
 
 
 #include "../../common/protocol.h"
+//#define MSG_TYPE_ROACH_SCORE 3
 
 #endif

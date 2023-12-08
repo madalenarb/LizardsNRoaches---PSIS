@@ -15,20 +15,18 @@ typedef struct LizardClient{
     struct LizardClient *next; // pointer to the next Lizard client
 } LizardClient;
 
-/*
-typedef struct roach_message_t
-{
-    int msg_type; // Define o tipo de mensagem para roaches (por exemplo, MSG_TYPE_ROACHES_CONNECT)
-    position_t position; // position of the Lizard client
-    direction_t direction; // direction of the Lizard client
-    //int N_roaches; // Número de roaches
-    int scores_roaches[10]; // Pontuações dos roaches
-    int roach_positions_x[10]; // Posições x dos roaches
-    int roach_positions_y[10]; // Posições y dos roaches
-    int connected; // 1 if connected, 0 if disconnected
-} roach_message_t; 
-*/
-
+// typedef struct roach_message_t
+// {
+//     int msg_type; // Define o tipo de mensagem para roaches (por exemplo, MSG_TYPE_ROACHES_CONNECT)
+//     position_t position; // position of the Lizard client
+//     direction_t direction; // direction of the Lizard client
+//     int N_roaches; // Número de roaches
+//     int score[10]; //score das reoaches
+//     int score_roaches[10]; // Pontuações dos roaches
+//     int roach_positions_x[10]; // Posições x dos roaches
+//     int roach_positions_y[10]; // Posições y dos roaches
+//     int connected; // 1 if connected, 0 if disconnected
+// } roach_message_t; 
 
 void addLizardClient(LizardClient** headLizardList, char id);
 void printList(LizardClient* headLizardList);

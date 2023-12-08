@@ -23,7 +23,6 @@ extern volatile sig_atomic_t flag_exit;
 #define MSG_TYPE_LIZARD_MOVEMENT 1
 #define MSG_TYPE_ROACHES_CONNECT 2
 #define MSG_TYPE_ROACHES_MOVEMENT 3
-#define MSG_TYPE_PASSWORD_REQUEST 4
 #define MSG_TYPE_ACK 5
 #define MSG_TYPE_DISCONNECT -1
 
@@ -33,10 +32,9 @@ typedef struct message_t
 {   
     int msg_type; /* 0 join   1 - move */
     char ch;
-    char password[20];
-    int N_roaches; //
-    int i;
-    char id; // id given by the server, the client uses it to verify
+    int N_roaches; // number of roaches sent by the client
+    int index; // index of the roach the client randomly chose
+    int score_roaches[10];
     direction_t direction;
 } message_t;
 
