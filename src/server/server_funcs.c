@@ -265,12 +265,12 @@ void handleRoachesConnect(WINDOW *my_win, roach_message_t *roach_msg, message_t 
 
         for (int i = 0; i < m->N_roaches; i++) {
             // Preencher as coordenadas aleatórias
-            roach_msg->roach_positions_x[i] = rand() % WINDOW_WIDTH;
-            roach_msg->roach_positions_y[i] = rand() % WINDOW_WIDTH;
+            roach_msg->roach_positions_x[i] = rand() % (WINDOW_WIDTH-2)+1; //para nao calhar fora do painel;
+            roach_msg->roach_positions_y[i] = rand() % (WINDOW_WIDTH-2)+1;
 
             roach_msg->score_roaches[i]=rand() % 5 + 1;
             
-            //representa-os no grafico
+            //representação no grafico
             wmove(my_win, roach_msg->roach_positions_x[i],roach_msg->roach_positions_y[i]);
             waddch(my_win, '0' + roach_msg->score_roaches[i]);
             //waddch(my_win, roach_msg->score_roaches[i]);
