@@ -297,7 +297,7 @@ void handleRoachesMovement(WINDOW *my_win, roach_message_t *roach_msg,message_t 
     wmove(my_win, roach_msg->roach_positions_x[i], roach_msg->roach_positions_y[i]);
     waddch(my_win,'0' + roach_msg->score_roaches[i]);
     wrefresh(my_win);
-   
+ 
 }
 
 void disconnectAllLizards(LizardClient **headLizardList, void *socket) {
