@@ -262,14 +262,18 @@ void handleRoachesConnect(WINDOW *my_win, roach_message_t *roach_msg, message_t 
         m->msg_type = MSG_TYPE_ACK;
         zmq_send(socket, m, sizeof(*m), 0);
 
+
         for (int i = 0; i < m->N_roaches; i++) {
             // Preencher as coordenadas aleatórias
             roach_msg->roach_positions_x[i] = rand() % WINDOW_WIDTH;
             roach_msg->roach_positions_y[i] = rand() % WINDOW_WIDTH;
+
+            roach_msg->score_roaches[i]=rand() % 5 + 1;
             
             //representa-os no grafico
             wmove(my_win, roach_msg->roach_positions_x[i],roach_msg->roach_positions_y[i]);
-            waddch(my_win, m->score_roaches[i] | A_BOLD);
+            waddch(my_win, '0' + roach_msg->score_roaches[i]);
+            //waddch(my_win, roach_msg->score_roaches[i]);
         }
         wrefresh(my_win);
 
@@ -291,7 +295,7 @@ void handleRoachesMovement(WINDOW *my_win, roach_message_t *roach_msg,message_t 
     zmq_send(socket, m, sizeof(*m), 0);
     
     wmove(my_win, roach_msg->roach_positions_x[i], roach_msg->roach_positions_y[i]);
-    waddch(my_win, m->score_roaches[i]);
+    waddch(my_win,'0' + roach_msg->score_roaches[i]);
     wrefresh(my_win);
    
 }
