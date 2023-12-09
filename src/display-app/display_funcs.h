@@ -17,4 +17,6 @@ typedef struct {
     int content[30][30];
 } display_message_t;
 
+void setupWindows(WINDOW **my_win);
+
 #endif  // DISPLAY_FUNCS_H
