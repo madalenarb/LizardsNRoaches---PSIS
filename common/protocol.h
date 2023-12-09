@@ -33,7 +33,8 @@ typedef struct message_t
     int msg_type; /* 0 join   1 - move */
     char ch;
     int N_roaches; // number of roaches sent by the client
-    int index; // index of the roach the client randomly chose
+    int index; // index of the roachClient
+    int roach_index; // index of the roach
     int score_roaches[10];
     direction_t direction;
 } message_t;
@@ -46,10 +47,6 @@ typedef struct position_t
 
 #define FIFO_NAME "/tmp/lizard_fifo"
 
-message_t *init_message();
-message_t *create_message(int msg_type, char ch, direction_t direction);
-uint32_t checksum(message_t *m);
-int is_corrupted(message_t *m);
 void handle_signal(int signum);
 
 #endif

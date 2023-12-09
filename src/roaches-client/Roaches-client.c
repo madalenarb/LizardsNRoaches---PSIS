@@ -16,6 +16,7 @@
 int main() {
     message_t ACK_server;
 
+    int n = 0;
     char answer[10];
     void *context = zmq_ctx_new();
     void *socket = zmq_socket(context, ZMQ_REQ);
@@ -27,11 +28,11 @@ int main() {
 
     m.N_roaches= rand() % 10 + 1;  // Número aleatório de roaches entre 1 e 10
 
-    // for (int i = 0; i < m.N_roaches; i++) {
-    //    m.score_roaches[i] = rand() % 5 + 1;  // Score aleatório entre 1 e 5
+    for (int i = 0; i < m.N_roaches; i++) {
+       m.score_roaches[i] = rand() % 5 + 1;  // Score aleatório entre 1 e 5
        
-    // }
-    
+    }
+
     zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, &ACK_server, sizeof(message_t), 0);
     if(ACK_server.msg_type == MSG_TYPE_DISCONNECT){
@@ -41,14 +42,15 @@ int main() {
         printf("Bye\n");
         exit(1);
     }
-    
-    m.msg_type = MSG_TYPE_ROACHES_MOVEMENT;
+
+    m.roach_index = ACK_server.roach_index;   
     //roach_msg.msg_type =MSG_TYPE_ROACHES_MOVEMENT;
 
     //int sleep_delay;
     direction_t direction;
-    int n = 0;
-    int key=0;
+    m.index = ACK_server.index;
+
+    printf("Your Roach_ID is %d\n", m.index);
     do {
         // Preencher os movimentos aleatórios para cada barata
         for (int i = 0; i < m.N_roaches; i++) {
@@ -75,17 +77,25 @@ int main() {
                 break;
             }
 
-            m.index=i; //para saber qual o indifice que vamos mudar
+            m.index = ACK_server.index;
+            m.roach_index = i;
             m.msg_type =MSG_TYPE_ROACHES_MOVEMENT;
             m.direction=direction;
+            printf("direction %d\n", m.direction);
 
-            if(key != 'x'){
-                zmq_send(socket, &m, sizeof(message_t), 0);
-                zmq_recv(socket, answer, 10, 0);           
-            }
+            zmq_send(socket, &m, sizeof(message_t), 0);
+            zmq_recv(socket, answer, 10, 0);  
+            if(ACK_server.msg_type == MSG_TYPE_DISCONNECT){
+                printf("You have been disconnected\n");
+                zmq_close(socket);
+                zmq_close(context);
+                printf("Bye\n");
+                exit(1);
+            }      
+
         }
             
-        }while (key != 'x');
+    }while (1);
    
    // Adicione uma pequena pausa antes de encerrar
     sleep(1);

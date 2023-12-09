@@ -2,3 +2,4 @@
 #define WINDOW_HEIGHT 30
 
 #define MAX_ROACHES 300
+#define MAX_ROACHES_PER_CLIENT 10
