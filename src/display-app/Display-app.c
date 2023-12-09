@@ -1,17 +1,25 @@
 // displayapp.c
 #include <ncurses.h>
+#include <zmq.h>
 #include "display_funcs.h"
 
+/*
+typedef struct {
+    int content[30][30];
+} display_message_t;
+*/
 int main() {
 
-    initscr();			/* Start curses mode 		*/
-    cbreak();
-    keypad(stdscr, TRUE);
-    noecho();
-    *my_win = newwin(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
-    box(*my_win, 0 , 0);
+    WINDOW *my_win;
+    setupWindows(&my_win);
 
+    // initscr();			/* Start curses mode 		*/
+    // cbreak();
+    // keypad(stdscr, TRUE);
+    // noecho();
 
+    // *my_win = newwin(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
+    // box(*my_win, 0 , 0);
 
     //initscr(); // Inicializa a biblioteca ncurses
     //noecho();  // Não exibe as teclas pressionadas
@@ -41,7 +49,7 @@ int main() {
             printw("\n");
         }
         
-        wrefresh(*my_win);
+        wrefresh(my_win);
         //refresh();  // Atualiza a tela
 
         // Adicione aqui qualquer lógica adicional necessária para interação com o usuário
@@ -59,4 +67,3 @@ int main() {
     return 0;
 }
 
-}
