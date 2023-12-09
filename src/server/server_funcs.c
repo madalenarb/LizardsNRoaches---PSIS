@@ -380,11 +380,24 @@ void updateDisplayMessage(display_message_t *displayMessage, LizardClient *headL
     }
 
     // Adiciona informações sobre baratas
+    
+    // RoachClient *currentRoach = headRoachList;
+    // while (currentRoach != NULL) {
+    //     currentRoach.
+    //     int x = currentRoach->position.position_x;
+    //     int y = currentRoach->position.position_y;
+    //     displayMessage->content[x][y] = '0' + currentRoach->score;
+
+    //     currentRoach = currentRoach->next;
+    // }
+
     RoachClient *currentRoach = headRoachList;
     while (currentRoach != NULL) {
-        int x = currentRoach->position.position_x;
-        int y = currentRoach->position.position_y;
-        displayMessage->content[x][y] = '0' + currentRoach->score;
+        for (int i = 0; i < currentRoach->num_roaches; i++) {
+            int x = currentRoach->roaches[i].position.position_x;
+            int y = currentRoach->roaches[i].position.position_y;
+            displayMessage->content[x][y] = '0' + currentRoach->roaches[i].score;
+        }
 
         currentRoach = currentRoach->next;
     }
