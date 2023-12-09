@@ -26,7 +26,13 @@ int main()
     void *socket = zmq_socket(context, ZMQ_REP);
     int rc = zmq_bind(socket, "tcp://*:5555");
     assert(rc == 0);
-    
+
+    //acrescentei agora esta parte
+    void *socket_display = zmq_socket(context, ZMQ_PUSH);  // Crie um novo socket para o display
+    int rc_display = zmq_connect(socket_display, "tcp://localhost:5556");  // Substitua pelo endereço correto
+    assert(rc_display == 0);
+
+    message_to_display display_message;
 
     //Linked list to manage Lizard clients
     LizardClient* headLizardList = NULL;
@@ -75,10 +81,16 @@ int main()
         updateAndRenderRoaches(my_win, headRoachList);
         zmq_send(socket, &ACK_message, sizeof(message_t), 0);
 
+
+	updateDisplayMessage(&display_message, headLizardList, headRoachList); //atualiza a matriz que vai ser enviada para o display
+
+        zmq_send(socket_display, &display_message, sizeof(message_to_display), 0); //envia para o display
+
     } while (!flag_exit);
   	endwin();			/* End curses mode		  */
     printf("Bye\n");
     disconnectAllLizards(&headLizardList, socket);
+    zmq_close(socket_display);
     zmq_close(socket);
     zmq_ctx_destroy(context);
 	return 0;
