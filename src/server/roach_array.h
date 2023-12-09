@@ -19,7 +19,6 @@ typedef struct RoachClient {
 } RoachClient;
 
 
-RoachClient *initRoachArray();
 void addRoachClient(RoachClient **headRoachList, int *score, int n_roaches, int id_roach);
 RoachClient* findRoachClient(RoachClient **headRoachList, int id_roach);
 
