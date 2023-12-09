@@ -351,4 +351,43 @@ void forceRoachDisconnect(message_t *m, void *socket){
     zmq_send(socket, m, sizeof(*m), 0);
 }
 
+void updateDisplayMessage(display_message_t *displayMessage, LizardClient *headLizardList, RoachClient *headRoachList) {
+    // Inicializa todas as células como pontos vazios
+    for (int i = 0; i < 30; i++) {
+        for (int j = 0; j < 30; j++) {
+            displayMessage->content[i][j] = 0;
+        }
+    }
+
+    // Adiciona informações sobre lagartos
+    LizardClient *currentLizard = headLizardList;
+    while (currentLizard != NULL) {
+        int x = currentLizard->position.position_x;
+        int y = currentLizard->position.position_y;
+        displayMessage->content[x][y] = currentLizard->id;
+        
+        // Adiciona informações sobre a cauda (se houver)
+        for (int i = 0; i < 5; i++) {
+            int cauda_x = currentLizard->cauda_x[i];
+            int cauda_y = currentLizard->cauda_y[i];
+            if (currentLizard->score<50)
+                displayMessage->content[cauda_x][cauda_y] = '.';
+            else
+                displayMessage->content[cauda_x][cauda_y] = '*';
+        }
+
+        currentLizard = currentLizard->next;
+    }
+
+    // Adiciona informações sobre baratas
+    RoachClient *currentRoach = headRoachList;
+    while (currentRoach != NULL) {
+        int x = currentRoach->position.position_x;
+        int y = currentRoach->position.position_y;
+        displayMessage->content[x][y] = '0' + currentRoach->score;
+
+        currentRoach = currentRoach->next;
+    }
+}
+
 // void lizardHitsLizard()
