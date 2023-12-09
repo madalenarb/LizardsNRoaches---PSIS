@@ -27,11 +27,11 @@ int main() {
 
     m.N_roaches= rand() % 10 + 1;  // Número aleatório de roaches entre 1 e 10
 
-    // for (int i = 0; i < m.N_roaches; i++) {
-    //    m.score_roaches[i] = rand() % 5 + 1;  // Score aleatório entre 1 e 5
+    for (int i = 0; i < m.N_roaches; i++) {
+       m.score_roaches[i] = rand() % 5 + 1;  // Score aleatório entre 1 e 5
        
-    // }
-    
+    }
+
     zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, &ACK_server, sizeof(message_t), 0);
     if(ACK_server.msg_type == MSG_TYPE_DISCONNECT){

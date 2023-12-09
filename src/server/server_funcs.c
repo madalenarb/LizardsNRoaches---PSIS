@@ -253,8 +253,7 @@ void handleLizardDisconnect(WINDOW *my_win, LizardClient **headLizardList, messa
     }
 }
 
-void handleRoachesConnect(WINDOW *my_win, RoachClient *roachArray, message_t *m, void *socket, int *NroachesTotal)
-{
+void handleRoachesConnect(WINDOW *my_win, RoachClientS **headRoachList, message_t *m, void *socket, int *NroachesTotal, int id_roach){
     *NroachesTotal=*NroachesTotal+ m->N_roaches;
     if(*NroachesTotal>MAX_ROACHES){
         forceRoachDisconnect(m, socket);
@@ -262,23 +261,16 @@ void handleRoachesConnect(WINDOW *my_win, RoachClient *roachArray, message_t *m,
     else
     {
         m->msg_type = MSG_TYPE_ACK;
-        int n_roaches=m->N_roaches;
-        zmq_send(socket, m, sizeof(*m), 0);
+        addRoachClient(headRoachList, m->score_roaches, m->N_roaches, id_roach);
+        RoachClientS *roachClient = findRoachClient(headRoachList, id_roach);
 
-        for (int i= *NroachesTotal-n_roaches; i < *NroachesTotal;i++){
-            roachArray[i].id = i;
-            // Preencher as coordenadas aleatórias
-            roachArray[i].position.position_x = rand() % (WINDOW_WIDTH-2)+1; //para nao calhar fora do painel;
-            roachArray[i].position.position_y = rand() % (WINDOW_WIDTH-2)+1;
-
-            roachArray[i].score = rand() % 5 + 1;
-            
-            //representa-os no grafico
-            wmove(my_win, roachArray[i].position.position_x, roachArray[i].position.position_y);
-            waddch(my_win, '0' + roachArray[i].score);
+        for (int i = 0; i < roachClient->num_roaches; i++)
+        {
+            wmove(my_win, roachClient->roaches[i].position.position_x, roachClient->roaches[i].position.position_y);
+            waddch(my_win, '0' + roachClient->roaches[i].score);
         }
         wrefresh(my_win);
-
+        zmq_send(socket, m, sizeof(*m), 0);
     }
 }
 

@@ -46,10 +46,6 @@ typedef struct position_t
 
 #define FIFO_NAME "/tmp/lizard_fifo"
 
-message_t *init_message();
-message_t *create_message(int msg_type, char ch, direction_t direction);
-uint32_t checksum(message_t *m);
-int is_corrupted(message_t *m);
 void handle_signal(int signum);
 
 #endif

@@ -18,7 +18,7 @@ void updateAndRenderLizards(WINDOW *my_win, LizardClient *headLizardList);
 void forceLizardDisconnect(message_t *m, void *socket);
 void handleLizardConnect(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket);
 void handleLizardDisconnect(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket);
-void handleRoachesConnect(WINDOW *my_win, RoachClient *roachArray, message_t *m, void *socket, int *NroachesTotal);
+void handleRoachesConnect(WINDOW *my_win, RoachClientS **headRoachList, message_t *m, void *socket, int *NroachesTotal, int id_roach);
 void handleRoachMovement(WINDOW *my_win, RoachClient *roachArray, message_t *m, void *socket, int *NroachesTotal);
 void renderRoach(WINDOW *my_win, RoachClient *roachArray, int i);
 void updateAndRenderRoaches(WINDOW *my_win, RoachClient *roachArray, int N_roaches);

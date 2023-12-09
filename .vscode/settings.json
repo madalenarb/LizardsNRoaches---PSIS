@@ -14,6 +14,7 @@
         "unordered_set": "c",
         "lizard-funcs.h": "c",
         "roach_array.h": "c",
-        "assert.h": "c"
+        "assert.h": "c",
+        "tuple": "c"
     }
 }
