@@ -1,18 +1,8 @@
 #include "roach_array.h"
 
-RoachClient *initRoachArray()
-{
-    RoachClient *roachArray = malloc(sizeof(RoachClient) * MAX_ROACHES);
-    for (int i = 0; i < MAX_ROACHES; i++)
-    {
-        roachArray[i].score = 0;
-        roachArray[i].direction = -1;
-    }
-    return roachArray;
-}
 
-RoachClientS *initRoachClient(int n_roaches, int *score, int id_roach){
-    RoachClientS *newRoachClient = (RoachClientS *)malloc(sizeof(RoachClientS));
+RoachClient *initRoachClient(int n_roaches, int *score, int id_roach){
+    RoachClient *newRoachClient = (RoachClient *)malloc(sizeof(RoachClient));
     if(newRoachClient == NULL){
         perror("malloc");
         exit(EXIT_FAILURE);
@@ -29,13 +19,13 @@ RoachClientS *initRoachClient(int n_roaches, int *score, int id_roach){
     return newRoachClient;
 }
 
-void addRoachClient(RoachClientS **headRoachList, int *score, int n_roaches, int id_roach){
-    RoachClientS *newRoachClient = initRoachClient(n_roaches, score, id_roach);
+void addRoachClient(RoachClient **headRoachList, int *score, int n_roaches, int id_roach){
+    RoachClient *newRoachClient = initRoachClient(n_roaches, score, id_roach);
     if(*headRoachList == NULL){
         *headRoachList = newRoachClient;
     }
     else{
-        RoachClientS *currentRoachClient = *headRoachList;
+        RoachClient *currentRoachClient = *headRoachList;
         while(currentRoachClient->next != NULL){
             currentRoachClient = currentRoachClient->next;
         }
@@ -43,8 +33,8 @@ void addRoachClient(RoachClientS **headRoachList, int *score, int n_roaches, int
     }
 }
 
-RoachClientS* findRoachClient(RoachClientS **headRoachList, int id_roach){
-    RoachClientS *currentRoachClient = *headRoachList;
+RoachClient* findRoachClient(RoachClient **headRoachList, int id_roach){
+    RoachClient *currentRoachClient = *headRoachList;
     while(currentRoachClient != NULL){
         if(currentRoachClient->id == id_roach){
             break;
@@ -54,8 +44,8 @@ RoachClientS* findRoachClient(RoachClientS **headRoachList, int id_roach){
     return currentRoachClient;
 }
 
-void printRoachList(RoachClientS *headRoachList){
-    RoachClientS *currentRoachClient = headRoachList;
+void printRoachList(RoachClient *headRoachList){
+    RoachClient *currentRoachClient = headRoachList;
     while(currentRoachClient != NULL){
         printf("Positions:\n");
         for(int i = 0; i < currentRoachClient->num_roaches; i++){
@@ -65,15 +55,14 @@ void printRoachList(RoachClientS *headRoachList){
     }
 }
 
-void printRoachArray(RoachClient *roachArray)
-{
-    for (int i = 0; i < MAX_ROACHES; i++)
-    {
-        printf("score: %d, direction: %d\n", roachArray[i].score, roachArray[i].direction);
-    }
-}
 
-void freeRoachArray(RoachClient *roachArray)
-{
-    free(roachArray);
+void freeRoachList(RoachClient **headRoachList){
+    RoachClient *currentRoachClient = *headRoachList;
+    RoachClient *nextRoachClient = NULL;
+    while(currentRoachClient != NULL){
+        nextRoachClient = currentRoachClient->next;
+        free(currentRoachClient);
+        currentRoachClient = nextRoachClient;
+    }
+    *headRoachList = NULL;
 }

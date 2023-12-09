@@ -134,7 +134,7 @@ void new_position(LizardClient* lizardClient){
         }
     }
 
-void new_position_roaches(RoachClientS *roachClient, int id){
+void new_position_roaches(RoachClient *roachClient, int id){
     switch (roachClient->roaches[id].direction)
     {
     case UP:
@@ -216,10 +216,11 @@ void forceLizardDisconnect(message_t *m, void *socket){
     zmq_send(socket, m, sizeof(*m), 0);
 }
 
-void handleLizardConnect(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket){
-    if(findLizardClient(*headLizardList, m->ch) != NULL){
+void handleLizardConnect(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket, int *nClients){
+    if(findLizardClient(*headLizardList, m->ch) != NULL || *nClients >= MAX_CLIENTS){
         forceLizardDisconnect(m, socket);
     } else {
+        nClients++;
         m->msg_type = MSG_TYPE_ACK;
         zmq_send(socket, m, sizeof(*m), 0);
         addLizardClient(headLizardList, m->ch);
@@ -241,27 +242,28 @@ void handleLizardMovement(WINDOW *my_win, LizardClient **headLizardList, message
     }
 }
 
-void handleLizardDisconnect(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket){
+void handleLizardDisconnect(WINDOW *my_win, LizardClient **headLizardList, message_t *m, void *socket, int *nClients){
     LizardClient *lizardClient = findLizardClient(*headLizardList, m->ch);
     if(lizardClient != NULL){
         m->msg_type = MSG_TYPE_DISCONNECT;
         zmq_send(socket, m, sizeof(*m), 0);
         cleanLizard(my_win, lizardClient);
         disconnectLizardClient(headLizardList, m->ch);
+        nClients--;
     }
 }
 
-void handleRoachesConnect(WINDOW *my_win, RoachClientS **headRoachList, message_t *m, void *socket, int *NroachesTotal, int id_roach){
+void handleRoachesConnect(WINDOW *my_win, RoachClient **headRoachList, message_t *m, void *socket, int *NroachesTotal, int id_roach){
     m->index = id_roach;
     *NroachesTotal += m->N_roaches;
-    if(*NroachesTotal>MAX_ROACHES){
+    if(*NroachesTotal>=MAX_ROACHES){
         forceRoachDisconnect(m, socket);
     } 
     else
     {
         m->msg_type = MSG_TYPE_ACK;
         addRoachClient(headRoachList, m->score_roaches, m->N_roaches, id_roach);
-        RoachClientS *roachClient = findRoachClient(headRoachList, id_roach);
+        RoachClient *roachClient = findRoachClient(headRoachList, id_roach);
 
         for (int i = 0; i < roachClient->num_roaches; i++)
         {
@@ -273,12 +275,12 @@ void handleRoachesConnect(WINDOW *my_win, RoachClientS **headRoachList, message_
     }
 }
 
-void handleRoachMovement(WINDOW *my_win, RoachClientS **headRoachList, message_t *m, direction_t direction,void *socket)
+void handleRoachMovement(WINDOW *my_win, RoachClient **headRoachList, message_t *m, direction_t direction,void *socket)
 {
     int id_roach = m->index;
     int roach = m->roach_index;
     // printf("id_roach: %d, directiosadsadn: %d\n", id_roach, direction);
-    RoachClientS *roachClient = findRoachClient(headRoachList, id_roach);
+    RoachClient *roachClient = findRoachClient(headRoachList, id_roach);
     // printf("id_roach: %d, direction: %d\n", id_roach, direction);
     if(roachClient == NULL){
         // printf("Roach client not found\n");
@@ -293,7 +295,7 @@ void handleRoachMovement(WINDOW *my_win, RoachClientS **headRoachList, message_t
     }
 }
 
-void renderRoach(WINDOW *my_win, RoachClientS *roachClient, int id){
+void renderRoach(WINDOW *my_win, RoachClient *roachClient, int id){
     wmove(my_win, roachClient->roaches[id].position.position_x, roachClient->roaches[id].position.position_y);
     waddch(my_win, ' ');
     wrefresh(my_win);
@@ -310,10 +312,14 @@ void renderRoach(WINDOW *my_win, RoachClientS *roachClient, int id){
     wrefresh(my_win);
 }
 
-void updateAndRenderRoaches(WINDOW *my_win, RoachClient *roachArray, int N_roaches){
-    for(int i = 0; i < N_roaches; i++){
-        wmove(my_win, roachArray[i].position.position_x, roachArray[i].position.position_y);
-        waddch(my_win,'0' + roachArray[i].score);
+void updateAndRenderRoaches(WINDOW *my_win, RoachClient *headRoachList){
+    RoachClient *currentRoachClient = headRoachList;
+    while(currentRoachClient != NULL){
+        for(int i = 0; i < currentRoachClient->num_roaches; i++){
+            wmove(my_win, currentRoachClient->roaches[i].position.position_x, currentRoachClient->roaches[i].position.position_y);
+            waddch(my_win,'0' + currentRoachClient->roaches[i].score);
+        }
+        currentRoachClient = currentRoachClient->next;
     }
     wrefresh(my_win);
 }

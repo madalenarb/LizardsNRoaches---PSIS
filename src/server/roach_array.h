@@ -10,26 +10,17 @@ typedef struct Roach{
     position_t position;
 } Roach;
 
-typedef struct RoachClientS {
+typedef struct RoachClient {
     int id;
     int num_roaches;
     Roach roaches[MAX_ROACHES_PER_CLIENT];
     
-    struct RoachClientS *next; // Pointer to next roach in the list
-} RoachClientS;
-
-
-
-typedef struct RoachClient
-{
-    int id;
-    int score; // id given by the server, the client uses it to verify
-    direction_t direction;
-    position_t position;
+    struct RoachClient *next; // Pointer to next roach in the list
 } RoachClient;
 
+
 RoachClient *initRoachArray();
-void addRoachClient(RoachClientS **headRoachList, int *score, int n_roaches, int id_roach);
-RoachClientS* findRoachClient(RoachClientS **headRoachList, int id_roach);
+void addRoachClient(RoachClient **headRoachList, int *score, int n_roaches, int id_roach);
+RoachClient* findRoachClient(RoachClient **headRoachList, int id_roach);
 
 #endif /* ROACHE_LIST_H */

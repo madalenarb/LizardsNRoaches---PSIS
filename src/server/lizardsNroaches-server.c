@@ -18,6 +18,7 @@ int main()
     int id_roach=0;
     int direction = 0;
     int NroachesTotal=0; // 30*30/3=300(numero de roaches total )
+    int nClients=0;
     // int id = 0;
 	void *context = zmq_ctx_new();
     void *socket = zmq_socket(context, ZMQ_REP);
@@ -29,7 +30,7 @@ int main()
     LizardClient* headLizardList = NULL;
 
     //Linked list to manage Roach clients
-    RoachClientS* headRoachList = NULL;
+    RoachClient* headRoachList = NULL;
 
 
     WINDOW *my_win;
@@ -43,7 +44,7 @@ int main()
         switch (m.msg_type)
         {
         case MSG_TYPE_LIZARD_CONNECT:
-            handleLizardConnect(my_win, &headLizardList, &m, socket);
+            handleLizardConnect(my_win, &headLizardList, &m, socket, &nClients);
             break;
         
         case MSG_TYPE_LIZARD_MOVEMENT:
@@ -52,7 +53,7 @@ int main()
         
         case MSG_TYPE_DISCONNECT:
             // printList(headLizardList);
-            handleLizardDisconnect(my_win, &headLizardList, &m, socket);
+            handleLizardDisconnect(my_win, &headLizardList, &m, socket, &nClients);
             break;
 
         case MSG_TYPE_ROACHES_CONNECT:
@@ -65,11 +66,11 @@ int main()
             handleRoachMovement(my_win, &headRoachList, &m, direction, socket); 
             break;
 
-        // default:
-        //     break;
+        default:
+            break;
         }
-        // updateAndRenderLizards(my_win, headLizardList);
-        // updateAndRenderRoaches(my_win, roach_array_ptr, NroachesTotal);
+        updateAndRenderLizards(my_win, headLizardList);
+        updateAndRenderRoaches(my_win, headRoachList);
 
     } while (!flag_exit);
   	endwin();			/* End curses mode		  */
