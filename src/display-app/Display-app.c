@@ -1,1 +1,62 @@
-// This is Lizard-funcs.c
+// displayapp.c
+#include <ncurses.h>
+#include "display_funcs.h"
+
+int main() {
+
+    initscr();			/* Start curses mode 		*/
+    cbreak();
+    keypad(stdscr, TRUE);
+    noecho();
+    *my_win = newwin(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
+    box(*my_win, 0 , 0);
+
+
+
+    //initscr(); // Inicializa a biblioteca ncurses
+    //noecho();  // Não exibe as teclas pressionadas
+
+    void *context = zmq_ctx_new();
+    void *socket_display = zmq_socket(context, ZMQ_PULL);
+    int rc_display = zmq_bind(socket_display, "tcp://*:5556");  // Substitua pelo endereço correto
+    assert(rc_display == 0);
+
+   display_message_t displayMessage;
+
+
+    while (1) {
+        zmq_recv(socket_display, &displayMessage, sizeof(display_message_t), 0);
+
+        clear();  // Limpa a tela antes de exibir as novas informações
+
+        // Exibe as informações na tela usando ncurses
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 30; j++) {
+                if (displayMessage.content[i][j] == 0) {
+                    printw(" ");  // Espaço vazio
+                } else {
+                    printw("%c", displayMessage.content[i][j]);
+                }
+            }
+            printw("\n");
+        }
+        
+        wrefresh(*my_win);
+        //refresh();  // Atualiza a tela
+
+        // Adicione aqui qualquer lógica adicional necessária para interação com o usuário
+
+        // Verifica se o usuário pressionou 'q' para sair
+        if (getch() == 'q') {
+            break;
+        }
+    }
+
+    endwin();  // Encerra a biblioteca ncurses
+    zmq_close(socket_display);
+    zmq_ctx_destroy(context);
+
+    return 0;
+}
+
+}
