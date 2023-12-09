@@ -15,6 +15,8 @@ int main()
 {
     signal(SIGINT, handle_signal);
     message_t m;
+    message_t ACK_message;
+    ACK_message.msg_type = MSG_TYPE_ACK;
     int id_roach=0;
     int direction = 0;
     int NroachesTotal=0; // 30*30/3=300(numero de roaches total )
@@ -35,7 +37,7 @@ int main()
 
     WINDOW *my_win;
     setupWindows(&my_win);
-
+ 
     do
     {
         // print("Waiting for message\n");
@@ -71,6 +73,7 @@ int main()
         }
         updateAndRenderLizards(my_win, headLizardList);
         updateAndRenderRoaches(my_win, headRoachList);
+        zmq_send(socket, &ACK_message, sizeof(message_t), 0);
 
     } while (!flag_exit);
   	endwin();			/* End curses mode		  */

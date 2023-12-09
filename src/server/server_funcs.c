@@ -338,11 +338,11 @@ void disconnectAllLizards(LizardClient **headLizardList, void *socket) {
         disconnectMessage.msg_type = MSG_TYPE_DISCONNECT;
         disconnectMessage.ch = currentLizard->id;
         zmq_send(socket, &disconnectMessage, sizeof(disconnectMessage), 0);
-        
         // Clean and disconnect
         disconnectLizardClient(headLizardList, currentLizard->id);
         currentLizard = currentLizard->next;
     }
+
     freeList(headLizardList);
 }
 
@@ -350,3 +350,5 @@ void forceRoachDisconnect(message_t *m, void *socket){
     m->msg_type = MSG_TYPE_DISCONNECT;
     zmq_send(socket, m, sizeof(*m), 0);
 }
+
+// void lizardHitsLizard()

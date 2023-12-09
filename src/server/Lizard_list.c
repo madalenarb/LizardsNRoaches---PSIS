@@ -8,8 +8,8 @@ LizardClient* initLizardClient(char id){
         exit(EXIT_FAILURE);
     }
     newClient->id = id;
-    newClient->position.position_x = WINDOW_WIDTH/2;
-    newClient->position.position_y = WINDOW_HEIGHT/2;
+    newClient->position.position_x = rand() % WINDOW_WIDTH;
+    newClient->position.position_y = rand() % WINDOW_HEIGHT;
     newClient->direction = rand() % 4;
     for (int i = 1; i < 6; i++) 
     {

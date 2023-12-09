@@ -23,25 +23,18 @@ int main()
     m.direction = -1;
     zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, &ACK_server, sizeof(message_t), 0);
-    if(ACK_server.msg_type == MSG_TYPE_DISCONNECT){
-        printf("You have been disconnected\n");
+    if(ACK_server.msg_type == MSG_TYPE_DISCONNECT || ACK_server.msg_type > 100){
         zmq_close(socket);
         zmq_close(context);
-        printf("Bye\n");
-        exit(1);
-    }
-    if(ACK_server.msg_type == MSG_TYPE_DISCONNECT){
         printf("You have been disconnected\n");
-        zmq_close(socket);
-        zmq_close(context);
         printf("Bye\n");
         exit(1);
     }
 
 	initscr();			/* Start curses mode 		*/
-    // cbreak();				/* Line buffering disabled	*/
+    cbreak();				/* Line buffering disabled	*/
 	keypad(stdscr, TRUE);		/* We get F1, F2 etc..		*/
-	// noecho();			/* Don't echo() while we do getch */
+	noecho();			/* Don't echo() while we do getch */
 
     int n = 0;
 
@@ -59,16 +52,17 @@ int main()
         if (key != 'q'){
             m.msg_type = MSG_TYPE_LIZARD_MOVEMENT;
             zmq_send(socket, &m, sizeof(m), 0);
-            zmq_recv(socket, &m, 3, 0);  
+            zmq_recv(socket, &ACK_server, 3, 0);  
+            if(ACK_server.msg_type == MSG_TYPE_DISCONNECT || ACK_server.msg_type > 100){
+                key = 'q';
+            }
         }
         refresh();			/* Print it on to the real screen */
     }while(key != 'q' && !flag_exit);
   	endwin();			/* End curses mode		  */
     m.msg_type = MSG_TYPE_DISCONNECT;
-    printf("Sending disconnect message %d\n", m.msg_type);
     zmq_send(socket, &m, sizeof(m), 0);
     zmq_close(socket);
-    zmq_close(context);
-    printf("Bye\n");
+    zmq_ctx_destroy(context);
 	return 0;
 } 
