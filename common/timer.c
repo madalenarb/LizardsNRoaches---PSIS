@@ -1,3 +1,10 @@
+/**
+ * Timer module
+ * 
+ * @param initializeTimer This module is used to keep track of the time elapsed since the program started
+ * @param updateTimer updates the timer
+*/
+
 #include "timer.h"
 
 // Define the global variables

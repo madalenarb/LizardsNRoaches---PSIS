@@ -1,4 +1,19 @@
-#include "server_funcs.h"
+/**
+ * @file lizardsNroaches-server.c
+ * @brief Main server program managing the game state, handling lizard and roach connections, movements, and display updates.
+ *
+ * This file contains the main program for the server, responsible for managing the game state, handling lizard and roach
+ * connections, movements, and updating the display. It utilizes functions from various files to achieve these tasks.
+ */
+
+#include "../../common/protocol.h"
+#include "../../common/constants.h"
+
+#include "display.h"
+#include "render_funcs.h"
+
+#include "utils.h"
+#include "lizards_funcs.h"
 
 /*
 #include <ncurses.h>

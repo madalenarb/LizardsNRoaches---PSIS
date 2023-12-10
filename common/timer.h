@@ -1,3 +1,10 @@
+/**
+ * Timer module
+ * 
+ * @brief This module is used to keep track of the time elapsed since the program started
+*/
+
+
 #ifndef TIMER_H
 #define TIMER_H
 

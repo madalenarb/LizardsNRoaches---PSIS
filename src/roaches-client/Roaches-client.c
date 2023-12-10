@@ -1,19 +1,15 @@
+/**
+ * @file Roaches-client.c
+ * @brief Main program for the roaches client, responsible for connecting to the server, generating random movements, and sending them.
+ *
+ * This file contains the main program for the roaches client, which connects to the server, generates random movements, and sends them.
+ */
+
 #include "roaches_function.h"
-/*
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <ctype.h>
-#include <ncurses.h>
-#include <zmq.h>
-*/
 #include <unistd.h>
 
 int main() {
+    // Signal handler for Ctrl+C
     signal(SIGINT, handle_signal);
     message_t ACK_server;
 
@@ -67,7 +63,7 @@ int main() {
                 break;
             case RIGHT:
                 printf("%d Going Right   \n", n);
-            break;
+                 break;
             case DOWN:
                 printf("%d Going Down   \n", n);
                 break;

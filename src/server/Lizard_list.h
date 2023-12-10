@@ -1,32 +1,30 @@
+/**
+ * @file lizard_list.h
+ * @brief Prototypes for managing a linked list of LizardClient structures.
+ *
+ * This header file declares functions and structures for creating, adding, printing, disconnecting,
+ * freeing, and finding LizardClient instances in the context of the LizardsNRoaches game.
+ */
+
 #ifndef LIZARD_LIST_H
 #define LIZARD_LIST_H
 
 #include "../../common/protocol.h"
 #include "../../common/constants.h"
 
-typedef struct LizardClient{
-    char id; // id of the Lizard client
-    position_t position; // position of the Lizard client
-    direction_t direction; // direction of the Lizard client
-    int cauda_x[5]; // x position of tail elements 
-    int cauda_y[5]; // y position of tail elements
-    int score; // score of the Lizard client
-    int connected; // 1 if connected, 0 if disconnected
-    struct LizardClient *next; // pointer to the next Lizard client
+/**
+ * @brief Structure representing a lizard client in the game.
+ */
+typedef struct LizardClient {
+    char id; ///< ID of the lizard client.
+    position_t position; ///< Position of the lizard client.
+    direction_t direction; ///< Current direction of the lizard client.
+    int cauda_x[5]; ///< X coordinates of the lizard's tail segments.
+    int cauda_y[5]; ///< Y coordinates of the lizard's tail segments.
+    int score; ///< Score of the lizard client.
+    int connected; ///< Connection status (1 if connected, 0 if disconnected).
+    struct LizardClient *next; ///< Pointer to the next lizard client in the list.
 } LizardClient;
-
-// typedef struct roach_message_t
-// {
-//     int msg_type; // Define o tipo de mensagem para roaches (por exemplo, MSG_TYPE_ROACHES_CONNECT)
-//     position_t position; // position of the Lizard client
-//     direction_t direction; // direction of the Lizard client
-//     int N_roaches; // Número de roaches
-//     int score[10]; //score das reoaches
-//     int score_roaches[10]; // Pontuações dos roaches
-//     int roach_positions_x[10]; // Posições x dos roaches
-//     int roach_positions_y[10]; // Posições y dos roaches
-//     int connected; // 1 if connected, 0 if disconnected
-// } roach_message_t; 
 
 void addLizardClient(LizardClient** headLizardList, char id);
 void printList(LizardClient* headLizardList);

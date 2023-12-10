@@ -1,3 +1,10 @@
+/**
+ * @file lizard_list.c
+ * @brief Implementation of functions related to managing a linked list of LizardClient structures.
+ *
+ * This file contains the definitions for functions responsible for creating, adding, printing, disconnecting,
+ * freeing, and finding lizard clients within the context of the game.
+ */
 #include "Lizard_list.h"
 
 // Create a new LizardClient

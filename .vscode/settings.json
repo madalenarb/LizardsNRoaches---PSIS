@@ -16,6 +16,13 @@
         "roach_array.h": "c",
         "assert.h": "c",
         "tuple": "c",
-        "timer.h": "c"
+        "timer.h": "c",
+        "lizards_funcs.h": "c",
+        "utils.h": "c",
+        "roach_funcs.h": "c",
+        "display_funcs.h": "c",
+        "render_funcs.h": "c",
+        "zmq.h": "c",
+        "signal.h": "c"
     }
 }

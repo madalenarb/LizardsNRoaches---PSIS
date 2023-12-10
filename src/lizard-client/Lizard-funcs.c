@@ -1,3 +1,10 @@
+/**
+ * @file Lizard-funcs.c
+ * @brief Implementation of functions related to lizard client functionalities.
+ *
+ * This file contains the definitions for functions responsible for lizard client functionalities, such as selecting directions based on user input.
+ */
+
 #include "Lizard-funcs.h"
 
 void select_direction(int ch, message_t *m){

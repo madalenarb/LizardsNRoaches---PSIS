@@ -1,4 +1,10 @@
-// displayapp.c
+/**
+ * @file Display-app.c
+ * @brief Main program for the display application, responsible for receiving and displaying messages from the server.
+ *
+ * This file contains the main program for the display application, which connects to the server, receives messages, and displays them using the ncurses library.
+ */
+ 
 #include <ncurses.h>
 #include <zmq.h>
 #include "display_funcs.h"

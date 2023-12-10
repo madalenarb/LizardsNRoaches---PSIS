@@ -1,3 +1,10 @@
+/**
+ * @file Lizard-client.c
+ * @brief Main program for the lizard client, responsible for connecting to the server, handling user input, and sending movements.
+ *
+ * This file contains the main program for the lizard client, which connects to the server, handles user input, and sends lizard movements.
+ */
+
 #include "Lizard-funcs.h"
 
 int main()
