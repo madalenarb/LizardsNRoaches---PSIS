@@ -3,15 +3,14 @@
 #include <zmq.h>
 #include "display_funcs.h"
 
-/*
-typedef struct {
-    int content[30][30];
-} display_message_t;
-*/
 int main() {
 
-    WINDOW *my_win;
-    setupWindows(&my_win);
+    void *context = zmq_ctx_new();
+    void *socket_display = zmq_socket(context, ZMQ_PULL);
+    int rc_display = zmq_bind(socket_display, "tcp://*:5556");  // Substitua pelo endereço correto
+    assert(rc_display == 0);
+
+
 
     // initscr();			/* Start curses mode 		*/
     // cbreak();
@@ -24,26 +23,31 @@ int main() {
     //initscr(); // Inicializa a biblioteca ncurses
     //noecho();  // Não exibe as teclas pressionadas
 
-    void *context = zmq_ctx_new();
-    void *socket_display = zmq_socket(context, ZMQ_PULL);
-    int rc_display = zmq_bind(socket_display, "tcp://*:5556");  // Substitua pelo endereço correto
-    assert(rc_display == 0);
+    
+    //printf("ola!!!!!!!!!");
 
-   display_message_t displayMessage;
-
+    WINDOW *my_win;
+    setupWindows(&my_win);
+  // display_message_t displayMessage;
+   message_to_display displayMessage;
 
     while (1) {
-        zmq_recv(socket_display, &displayMessage, sizeof(display_message_t), 0);
+        zmq_recv(socket_display, &displayMessage, sizeof(message_to_display), 0);
 
         clear();  // Limpa a tela antes de exibir as novas informações
+
 
         // Exibe as informações na tela usando ncurses
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 30; j++) {
                 if (displayMessage.content[i][j] == 0) {
-                    printw(" ");  // Espaço vazio
+                    //printw(" ");  // Espaço vazio
+                    wmove(my_win, i,j);
+                    waddch(my_win, ' ' | A_BOLD);
                 } else {
-                    printw("%c", displayMessage.content[i][j]);
+                    //printw("%c", displayMessage.content[i][j]);
+                    wmove(my_win, i,j);
+                    waddch(my_win, displayMessage.content[i][j] | A_BOLD);
                 }
             }
             printw("\n");
