@@ -8,9 +8,15 @@ LizardClient* initLizardClient(char id){
         exit(EXIT_FAILURE);
     }
     newClient->id = id;
-    newClient->position.position_x = rand() % WINDOW_WIDTH;
-    newClient->position.position_y = rand() % WINDOW_HEIGHT;
     newClient->direction = rand() % 4;
+
+    // Set the initial position of the LizardClient, ensuring that it is not out of bounds
+    int minDistance = 6;
+
+    newClient->position.position_x = rand() % (WINDOW_WIDTH - 2*minDistance) + minDistance;
+    newClient->position.position_y = rand() % (WINDOW_HEIGHT - 2*minDistance) + minDistance;
+
+    // Set the initial position of the LizardClient's tail
     for (int i = 1; i < 6; i++) 
     {
         if(newClient->direction == UP){
@@ -101,13 +107,3 @@ LizardClient* findLizardClient(LizardClient* headLizardList, char id){
     return NULL;
 }
 
-LizardClient* findLizardClientbyLocation(LizardClient* headLizardList, int x, int y){
-    LizardClient* current = headLizardList;
-    while(current != NULL){
-        if(current->position.position_x == x && current->position.position_y == y){
-            return current;
-        }
-        current = current->next;
-    }
-    return NULL;
-}

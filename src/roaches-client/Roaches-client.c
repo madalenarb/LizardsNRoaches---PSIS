@@ -14,10 +14,10 @@
 #include <unistd.h>
 
 int main() {
+    signal(SIGINT, handle_signal);
     message_t ACK_server;
 
     int n = 0;
-    char answer[10];
     void *context = zmq_ctx_new();
     void *socket = zmq_socket(context, ZMQ_REQ);
     zmq_connect(socket, "tcp://localhost:5555");
@@ -35,8 +35,8 @@ int main() {
 
     zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, &ACK_server, sizeof(message_t), 0);
+    printf("client index: %d\n", ACK_server.index);
     if(ACK_server.msg_type == MSG_TYPE_DISCONNECT){
-        printf("You have been disconnected\n");
         zmq_close(socket);
         zmq_close(context);
         printf("Bye\n");
@@ -50,7 +50,6 @@ int main() {
     direction_t direction;
     m.index = ACK_server.index;
 
-    printf("Your Roach_ID is %d\n", m.index);
     do {
         // Preencher os movimentos aleatórios para cada barata
         for (int i = 0; i < m.N_roaches; i++) {
@@ -81,10 +80,11 @@ int main() {
             m.roach_index = i;
             m.msg_type =MSG_TYPE_ROACHES_MOVEMENT;
             m.direction=direction;
-            printf("direction %d\n", m.direction);
-
+            printf("roach client %d\n", m.index);
+            printf("roach %d moving to %d\n", m.roach_index, m.direction);
             zmq_send(socket, &m, sizeof(message_t), 0);
-            zmq_recv(socket, answer, 10, 0);  
+            zmq_recv(socket, &ACK_server, 10, 0);  
+            
             if(ACK_server.msg_type == MSG_TYPE_DISCONNECT){
                 printf("You have been disconnected\n");
                 zmq_close(socket);
@@ -95,14 +95,12 @@ int main() {
 
         }
             
-    }while (1);
+    }while (!flag_exit);
    
    // Adicione uma pequena pausa antes de encerrar
     sleep(1);
 
     endwin();			/* End curses mode		  */
-    m.msg_type = MSG_TYPE_DISCONNECT;
-    printf("Sending disconnect message %d\n", m.msg_type);
 
     zmq_send(socket, &m, sizeof(m), 0);
     zmq_close(socket);

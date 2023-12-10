@@ -9,7 +9,7 @@ server:
 	@$(MAKE) -C src/server
 
 lizard-client:
-	@$(MAKE) -C src/lizard-client
+	@$(MAKE) -C src/lizard-client 
 
 roach-client:
 	@$(MAKE) -C src/roaches-client
@@ -19,6 +19,7 @@ valgrind:
 
 getPid:
 	lsof -i :5555
+
 
 clean:
 	@$(MAKE) -C common clean

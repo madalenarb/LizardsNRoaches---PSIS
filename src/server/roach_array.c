@@ -15,6 +15,7 @@ RoachClient *initRoachClient(int n_roaches, int *score, int id_roach){
         newRoachClient->roaches[i].direction = UP;
         newRoachClient->roaches[i].position.position_x = rand() % (WINDOW_WIDTH - 2) + 1;
         newRoachClient->roaches[i].position.position_y = rand() % (WINDOW_HEIGHT - 2) + 1;
+        newRoachClient->roaches[i].on_board = 1;
     }
     return newRoachClient;
 }
@@ -47,10 +48,7 @@ RoachClient* findRoachClient(RoachClient **headRoachList, int id_roach){
 void printRoachList(RoachClient *headRoachList){
     RoachClient *currentRoachClient = headRoachList;
     while(currentRoachClient != NULL){
-        printf("Positions:\n");
-        for(int i = 0; i < currentRoachClient->num_roaches; i++){
-            printf("x: %d, y: %d\n", currentRoachClient->roaches[i].position.position_x, currentRoachClient->roaches[i].position.position_y);
-        }
+        printf("RoachClient id: %d\n", currentRoachClient->id);
         currentRoachClient = currentRoachClient->next;
     }
 }

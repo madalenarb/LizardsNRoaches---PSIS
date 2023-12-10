@@ -1,6 +1,6 @@
 include ../../common/common.mk
 
-SRC_FILES = $(wildcard *.c)
+SRC_FILES = $(wildcard *.c ../../common/*.c)
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 TARGET = roaches-client

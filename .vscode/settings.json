@@ -15,6 +15,7 @@
         "lizard-funcs.h": "c",
         "roach_array.h": "c",
         "assert.h": "c",
-        "tuple": "c"
+        "tuple": "c",
+        "timer.h": "c"
     }
 }

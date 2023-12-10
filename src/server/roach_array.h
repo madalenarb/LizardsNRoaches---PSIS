@@ -8,6 +8,8 @@ typedef struct Roach{
     int score;
     direction_t direction;
     position_t position;
+    int on_board;
+    time_t eaten_time;
 } Roach;
 
 typedef struct RoachClient {
@@ -21,5 +23,6 @@ typedef struct RoachClient {
 
 void addRoachClient(RoachClient **headRoachList, int *score, int n_roaches, int id_roach);
 RoachClient* findRoachClient(RoachClient **headRoachList, int id_roach);
-
+void freeRoachList(RoachClient **headRoachList);
+void printRoachList(RoachClient *headRoachList);
 #endif /* ROACHE_LIST_H */

@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <zmq.h>
 #include <stdlib.h>
-#include <time.h>
+#include "timer.h"
 #include <unistd.h>
 #include <signal.h>
 // #include <zlib.h>
@@ -24,18 +24,20 @@ extern volatile sig_atomic_t flag_exit;
 #define MSG_TYPE_ROACHES_CONNECT 2
 #define MSG_TYPE_ROACHES_MOVEMENT 3
 #define MSG_TYPE_ACK 5
+#define MSG_TYPE_SCORE_UPDATE 6
 #define MSG_TYPE_DISCONNECT -1
 
 typedef enum direction_t {UP, DOWN, LEFT, RIGHT} direction_t;
 
 typedef struct message_t
 {   
-    int msg_type; /* 0 join   1 - move */
+    int msg_type;
     char ch;
     int N_roaches; // number of roaches sent by the client
     int index; // index of the roachClient
     int roach_index; // index of the roach
-    int score_roaches[10];
+    int score_roaches[MAX_ROACHES_PER_CLIENT];
+    int score_lizard;
     direction_t direction;
 } message_t;
 
