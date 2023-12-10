@@ -41,6 +41,10 @@ typedef struct message_t
     direction_t direction;
 } message_t;
 
+typedef struct message_to_display {
+    char content[30][30];  // Conteúdo de cada coordenada (ponto, letra, número, etc.)
+} message_to_display;
+
 typedef struct position_t
 {
     int position_x;
