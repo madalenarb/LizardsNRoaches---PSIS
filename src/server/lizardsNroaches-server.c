@@ -82,10 +82,10 @@ int main()
         zmq_send(socket, &ACK_message, sizeof(message_t), 0);
 
 
-	updateDisplayMessage(&display_message, headLizardList, headRoachList); //atualiza a matriz que vai ser enviada para o display
+	updateDisplayMessage(&display_message, headLizardList, headRoachList);
 
         zmq_send(socket_display, &display_message, sizeof(message_to_display), 0); //envia para o display
-
+	    
     } while (!flag_exit);
   	endwin();			/* End curses mode		  */
     printf("Bye\n");
