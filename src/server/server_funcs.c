@@ -402,5 +402,4 @@ void updateDisplayMessage(display_message_t *displayMessage, LizardClient *headL
         currentRoach = currentRoach->next;
     }
 }
-
 // void lizardHitsLizard()
