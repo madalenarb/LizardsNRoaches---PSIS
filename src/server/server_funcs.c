@@ -568,10 +568,10 @@ void forceRoachDisconnect(message_t *m, void *socket){
     zmq_send(socket, &m, sizeof(*m), 0);
 }
 
-void updateDisplayMessage(display_message_t *displayMessage, LizardClient *headLizardList, RoachClient *headRoachList) {
+void updateDisplayMessage(message_to_display *displayMessage, LizardClient *headLizardList, RoachClient *headRoachList) {
     // Inicializa todas as células como pontos vazios
-    for (int i = 0; i < 30; i++) {
-        for (int j = 0; j < 30; j++) {
+    for (int i = 0; i < WINDOW_HEIGHT; i++) {
+        for (int j = 0; j < WINDOW_WIDTH; j++) {
             displayMessage->content[i][j] = 0;
         }
     }

@@ -12,46 +12,48 @@ int main() {
     // assert(rc_display == 0);
     
     void *socket_display = zmq_socket(context, ZMQ_SUB);
-    int rc_display = zmq_connect(socket_display, "tcp://localhost:5556");
+    int rc_display = zmq_connect(socket_display, "tcp://localhost:5556"); // Change to the server's IP if different
     assert(rc_display == 0);
+
+    zmq_setsockopt(socket_display, ZMQ_SUBSCRIBE, "", 0); // Subscribe to all messages
+
 
     // Configurando o assinante para receber todas as mensagens
     zmq_setsockopt(socket_display, ZMQ_SUBSCRIBE, "", 0);
 
-    WINDOW *my_win;
-    setupWindows(&my_win);
-  
+    initscr();  // Inicializa a biblioteca ncurses
+    cbreak();  // Desabilita o buffer de entrada
+    keypad(stdscr, TRUE);  // Habilita o uso das teclas especiais, como as setas
+    noecho();  // Não exibe os caracteres digitados pelo usuário
+    curs_set(0);  // Não exibe o cursor na tela
+    WINDOW *my_win = newwin(WINDOW_HEIGHT, WINDOW_WIDTH, 0, 0);  // Cria uma nova janela
+    box(my_win, 0 , 0);  // Adiciona bordas à janela
+
+
+    message_to_display displayMessage;
    //message_to_display displayMessage;
 
     while (1) {
-        message_to_display displayMessage;
-        
-        zmq_recv(socket_display, &displayMessage, sizeof(message_to_display), 0);
+        int size = zmq_recv(socket_display, &displayMessage, sizeof(message_to_display), 0);
+        if (size == -1) {
+            // Handle error
+            continue;
+        }
 
-        clear();  
-
-
-        // Exibe as informações na tela usando ncurses
-        for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 30; j++) {
-                if (displayMessage.content[i][j] == 0) {
-                    //printw(" ");  // Espaço vazio
-                    wmove(my_win, i,j);
+        // Process the received display message
+        for (int i = 0; i < WINDOW_HEIGHT; i++) {
+            for (int j = 0; j < WINDOW_WIDTH; j++) {
+                char ch = displayMessage.content[i][j];
+                wmove(my_win, i, j);
+                if (ch == 0) {
                     waddch(my_win, ' ' | A_BOLD);
                 } else {
-                    //printw("%c", displayMessage.content[i][j]);
-                    wmove(my_win, i,j);
-                    waddch(my_win, displayMessage.content[i][j] | A_BOLD);
+                    waddch(my_win, ch | A_BOLD);
                 }
             }
-            printw("\n");
         }
-        
         wrefresh(my_win);
-        //refresh();  // Atualiza a tela
-
-
-        // Verifica se o usuário pressionou 'q' para sair
+        
         if (getch() == 'q') {
             break;
         }

@@ -18,7 +18,7 @@ int main()
     message_t m;
     int id_roach=0;
     int direction = 0;
-    int NroachesTotal=0; // 30*30/3=300(numero de roaches total )
+    int NroachesTotal=0; 
     int nClients=0;
     // int id = 0;
 	
@@ -86,19 +86,14 @@ int main()
         }
 
 
-	updateDisplayMessage(&display_message, headLizardList, headRoachList);
-
+	    updateDisplayMessage(&display_message, headLizardList, headRoachList);
         zmq_send(socket_display, &display_message, sizeof(message_to_display), 0); //envia para o display
 	    
     } while (!flag_exit);
   	endwin();			/* End curses mode		  */
     printf("Bye\n");
     disconnectAllLizards(&headLizardList, socket);
-<<<<<<< HEAD
-    disconnectAllRoaches(&headRoachList, socket);
-=======
     zmq_close(socket_display);
->>>>>>> 41f9ae6a39d28a01663cd6c5b944f2f86ce974cf
     zmq_close(socket);
     zmq_ctx_destroy(context);
 	return 0;
