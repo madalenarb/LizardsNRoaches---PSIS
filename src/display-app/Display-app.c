@@ -6,35 +6,29 @@
 int main() {
 
     void *context = zmq_ctx_new();
-    void *socket_display = zmq_socket(context, ZMQ_PULL);
-    int rc_display = zmq_bind(socket_display, "tcp://*:5556");  // Substitua pelo endereço correto
+    
+    // void *socket_display = zmq_socket(context, ZMQ_PULL);
+    // int rc_display = zmq_bind(socket_display, "tcp://*:5556");   
+    // assert(rc_display == 0);
+    
+    void *socket_display = zmq_socket(context, ZMQ_SUB);
+    int rc_display = zmq_connect(socket_display, "tcp://localhost:5556");
     assert(rc_display == 0);
 
-
-
-    // initscr();			/* Start curses mode 		*/
-    // cbreak();
-    // keypad(stdscr, TRUE);
-    // noecho();
-
-    // *my_win = newwin(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
-    // box(*my_win, 0 , 0);
-
-    //initscr(); // Inicializa a biblioteca ncurses
-    //noecho();  // Não exibe as teclas pressionadas
-
-    
-    //printf("ola!!!!!!!!!");
+    // Configurando o assinante para receber todas as mensagens
+    zmq_setsockopt(socket_display, ZMQ_SUBSCRIBE, "", 0);
 
     WINDOW *my_win;
     setupWindows(&my_win);
-  // display_message_t displayMessage;
-   message_to_display displayMessage;
+  
+   //message_to_display displayMessage;
 
     while (1) {
+        message_to_display displayMessage;
+        
         zmq_recv(socket_display, &displayMessage, sizeof(message_to_display), 0);
 
-        clear();  // Limpa a tela antes de exibir as novas informações
+        clear();  
 
 
         // Exibe as informações na tela usando ncurses
@@ -56,7 +50,6 @@ int main() {
         wrefresh(my_win);
         //refresh();  // Atualiza a tela
 
-        // Adicione aqui qualquer lógica adicional necessária para interação com o usuário
 
         // Verifica se o usuário pressionou 'q' para sair
         if (getch() == 'q') {
