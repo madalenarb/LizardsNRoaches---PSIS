@@ -22,14 +22,15 @@ int main()
     int NroachesTotal=0; // 30*30/3=300(numero de roaches total )
     int nClients=0;
     // int id = 0;
-	void *context = zmq_ctx_new();
+	
+    void *context = zmq_ctx_new();
     void *socket = zmq_socket(context, ZMQ_REP);
     int rc = zmq_bind(socket, "tcp://*:5555");
     assert(rc == 0);
 
     //acrescentei agora esta parte
-    void *socket_display = zmq_socket(context, ZMQ_PUSH);  // Crie um novo socket para o display
-    int rc_display = zmq_connect(socket_display, "tcp://localhost:5556");  // Substitua pelo endereço correto
+    void *socket_display = zmq_socket(context, ZMQ_PUB);
+    int rc_display = zmq_bind(socket_display, "tcp://*:5556");
     assert(rc_display == 0);
 
     message_to_display display_message;
