@@ -568,46 +568,6 @@ void forceRoachDisconnect(message_t *m, void *socket){
     zmq_send(socket, &m, sizeof(*m), 0);
 }
 
-<<<<<<< HEAD
-//Disconnect one roach
-void disconnectRoachClient(RoachClient **headRoachList, int id_roach){
-    RoachClient *currentRoachClient = *headRoachList;
-    RoachClient *previousRoachClient = NULL;
-    while(currentRoachClient != NULL){
-        if(currentRoachClient->id == id_roach){
-            if(previousRoachClient == NULL){
-                *headRoachList = currentRoachClient->next;
-            } else {
-                previousRoachClient->next = currentRoachClient->next;
-            }
-            free(currentRoachClient);
-            break;
-        }
-        previousRoachClient = currentRoachClient;
-        currentRoachClient = currentRoachClient->next;
-    }
-
-}
-
-
-
-
-void disconnectAllRoaches(RoachClient **headRoachList, void *socket) {
-    RoachClient *currentRoach = *headRoachList;
-    while (currentRoach != NULL) {
-        
-        disconnectRoachClient(headRoachList, currentRoach->id);
-        currentRoach = currentRoach->next;
-    }
-    message_t disconnectMessage;
-    disconnectMessage.msg_type = MSG_TYPE_DISCONNECT;
-    zmq_send(socket, &disconnectMessage, sizeof(disconnectMessage), 0);
-
-    freeRoachList(headRoachList);
-}
-
-
-=======
 void updateDisplayMessage(display_message_t *displayMessage, LizardClient *headLizardList, RoachClient *headRoachList) {
     // Inicializa todas as células como pontos vazios
     for (int i = 0; i < 30; i++) {
@@ -660,4 +620,3 @@ void updateDisplayMessage(display_message_t *displayMessage, LizardClient *headL
     }
 }
 // void lizardHitsLizard()
->>>>>>> 41f9ae6a39d28a01663cd6c5b944f2f86ce974cf
