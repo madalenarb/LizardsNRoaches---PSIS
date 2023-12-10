@@ -21,11 +21,18 @@ int main()
     int NroachesTotal=0; // 30*30/3=300(numero de roaches total )
     int nClients=0;
     // int id = 0;
-	void *context = zmq_ctx_new();
-
+	
+    void *context = zmq_ctx_new();
     void *socket = zmq_socket(context, ZMQ_REP);
     int rc = zmq_bind(socket, "tcp://*:5555");
     assert(rc == 0);
+
+    //acrescentei agora esta parte
+    void *socket_display = zmq_socket(context, ZMQ_PUB);
+    int rc_display = zmq_bind(socket_display, "tcp://*:5556");
+    assert(rc_display == 0);
+
+    message_to_display display_message;
 
     //Linked list to manage Lizard clients
     LizardClient* headLizardList = NULL;
@@ -78,11 +85,20 @@ int main()
             zmq_send(socket, &m, sizeof(m), 0);
         }
 
+
+	updateDisplayMessage(&display_message, headLizardList, headRoachList);
+
+        zmq_send(socket_display, &display_message, sizeof(message_to_display), 0); //envia para o display
+	    
     } while (!flag_exit);
   	endwin();			/* End curses mode		  */
     printf("Bye\n");
     disconnectAllLizards(&headLizardList, socket);
+<<<<<<< HEAD
     disconnectAllRoaches(&headRoachList, socket);
+=======
+    zmq_close(socket_display);
+>>>>>>> 41f9ae6a39d28a01663cd6c5b944f2f86ce974cf
     zmq_close(socket);
     zmq_ctx_destroy(context);
 	return 0;

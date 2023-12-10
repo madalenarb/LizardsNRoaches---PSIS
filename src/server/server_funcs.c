@@ -568,6 +568,7 @@ void forceRoachDisconnect(message_t *m, void *socket){
     zmq_send(socket, &m, sizeof(*m), 0);
 }
 
+<<<<<<< HEAD
 //Disconnect one roach
 void disconnectRoachClient(RoachClient **headRoachList, int id_roach){
     RoachClient *currentRoachClient = *headRoachList;
@@ -606,3 +607,57 @@ void disconnectAllRoaches(RoachClient **headRoachList, void *socket) {
 }
 
 
+=======
+void updateDisplayMessage(display_message_t *displayMessage, LizardClient *headLizardList, RoachClient *headRoachList) {
+    // Inicializa todas as células como pontos vazios
+    for (int i = 0; i < 30; i++) {
+        for (int j = 0; j < 30; j++) {
+            displayMessage->content[i][j] = 0;
+        }
+    }
+
+    // Adiciona informações sobre lagartos
+    LizardClient *currentLizard = headLizardList;
+    while (currentLizard != NULL) {
+        int x = currentLizard->position.position_x;
+        int y = currentLizard->position.position_y;
+        displayMessage->content[x][y] = currentLizard->id;
+        
+        // Adiciona informações sobre a cauda (se houver)
+        for (int i = 0; i < 5; i++) {
+            int cauda_x = currentLizard->cauda_x[i];
+            int cauda_y = currentLizard->cauda_y[i];
+            if (currentLizard->score<50)
+                displayMessage->content[cauda_x][cauda_y] = '.';
+            else
+                displayMessage->content[cauda_x][cauda_y] = '*';
+        }
+
+        currentLizard = currentLizard->next;
+    }
+
+    // Adiciona informações sobre baratas
+    
+    // RoachClient *currentRoach = headRoachList;
+    // while (currentRoach != NULL) {
+    //     currentRoach.
+    //     int x = currentRoach->position.position_x;
+    //     int y = currentRoach->position.position_y;
+    //     displayMessage->content[x][y] = '0' + currentRoach->score;
+
+    //     currentRoach = currentRoach->next;
+    // }
+
+    RoachClient *currentRoach = headRoachList;
+    while (currentRoach != NULL) {
+        for (int i = 0; i < currentRoach->num_roaches; i++) {
+            int x = currentRoach->roaches[i].position.position_x;
+            int y = currentRoach->roaches[i].position.position_y;
+            displayMessage->content[x][y] = '0' + currentRoach->roaches[i].score;
+        }
+
+        currentRoach = currentRoach->next;
+    }
+}
+// void lizardHitsLizard()
+>>>>>>> 41f9ae6a39d28a01663cd6c5b944f2f86ce974cf
