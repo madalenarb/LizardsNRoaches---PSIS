@@ -29,6 +29,6 @@ void handleRoachMovement(WINDOW *my_win, RoachClient **headRoachList, message_t 
 void updateAndRenderRoaches(WINDOW *my_win, RoachClient *headRoachList);
 void disconnectAllLizards(LizardClient **headLizardList, void *socket);
 void forceRoachDisconnect(message_t *m, void *socket);
-void updateDisplayMessage(display_message_t *displayMessage, LizardClient *headLizardList, RoachClient *headRoachList);
+void updateDisplayMessage(message_to_display *displayMessage, LizardClient *headLizardList, RoachClient *headRoachList);
 
 #endif /* SERVER_FUNCS_H */
