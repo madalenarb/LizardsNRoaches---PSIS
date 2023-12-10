@@ -6,6 +6,7 @@
 #include "Lizard_list.h"
 #include "roach_array.h"
 #include <assert.h>
+#include "utils.h"
 
 
 void new_position(LizardClient* lizardClient);
