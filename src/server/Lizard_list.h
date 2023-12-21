@@ -22,11 +22,11 @@ typedef struct LizardClient {
     int cauda_x[5]; ///< X coordinates of the lizard's tail segments.
     int cauda_y[5]; ///< Y coordinates of the lizard's tail segments.
     int score; ///< Score of the lizard client.
-    int connected; ///< Connection status (1 if connected, 0 if disconnected).
+    int password; ///< Connection status (1 if connected, 0 if disconnected).
     struct LizardClient *next; ///< Pointer to the next lizard client in the list.
 } LizardClient;
 
-void addLizardClient(LizardClient** headLizardList, char id);
+void addLizardClient(LizardClient** headLizardList, char id, int password);
 void printList(LizardClient* headLizardList);
 void disconnectLizardClient(LizardClient** headLizardList, char id);
 void freeList(LizardClient** headLizardList);

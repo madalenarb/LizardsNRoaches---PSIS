@@ -9,7 +9,7 @@
 #define LIZARD_FUNCS_H
 
 #include <ncurses.h>
-#include "../../common/protocol.h"  // Ensure this path is correct and accessible
+#include "../../common/protocol.h"  
 
 /**
  * @brief Processes keyboard input to determine the direction of lizard movement.

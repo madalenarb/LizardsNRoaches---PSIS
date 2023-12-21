@@ -1,5 +1,5 @@
 /**
- * @file roach_array.h
+ * @file roach_list.h
  * @brief Prototypes for managing roach clients in the LizardsNRoaches game.
  *
  * Declares structures and functions for handling roach clients. These include initialization, addition, 

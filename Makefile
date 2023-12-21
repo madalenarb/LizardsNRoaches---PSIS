@@ -1,6 +1,6 @@
 # LizardsNRoaches/Makefile
 
-all: protocol server lizard-client roach-client display-app
+all: protocol server lizard-client roach-client
 
 protocol:
 	@$(MAKE) -C common
@@ -13,12 +13,6 @@ lizard-client:
 
 roach-client:
 	@$(MAKE) -C src/roaches-client
-
-display-app:
-	@$(MAKE) -C src/display-app
-
-valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes all
 
 getPid:
 	lsof -i :5555

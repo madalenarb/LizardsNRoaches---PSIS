@@ -13,7 +13,7 @@
 #include "../../common/protocol.h"
 #include "../../common/constants.h"
 #include "Lizard_list.h"
-#include "roach_array.h"
+#include "roach_list.h"
 #include "render_funcs.h"
 
 /**

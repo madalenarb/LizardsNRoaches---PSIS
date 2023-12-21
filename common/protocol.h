@@ -55,16 +55,11 @@ typedef struct message_t
     int roach_index; // index of a single roach, which belongs to the roachClient
     int score_roaches[MAX_ROACHES_PER_CLIENT];
     int score_lizard;
+    int password;
     direction_t direction;
 } message_t;
 
-/**
- * @brief Structure for the message to be sent to the display application.
-*/
-typedef struct message_to_display {
-    char content[WINDOW_HEIGHT][WINDOW_WIDTH];  // Conteúdo de cada coordenada (ponto, letra, número, etc.)
-} message_to_display;
-
+typedef enum EntityType {LIZARD, ROACH} EntityType;
 
 /**
  * @brief Structure representing a position in 2D space.
@@ -74,6 +69,16 @@ typedef struct position_t
     int position_x;
     int position_y;
 } position_t;
+
+typedef struct display_update_t
+{
+    EntityType entity_type;
+    position_t position;
+    position_t tail_position[5];
+    direction_t direction;
+    char ch;
+    int score;
+} display_update_t;
 
 #define FIFO_NAME "/tmp/lizard_fifo"
 

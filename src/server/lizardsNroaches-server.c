@@ -9,7 +9,6 @@
 #include "../../common/protocol.h"
 #include "../../common/constants.h"
 
-#include "display.h"
 #include "render_funcs.h"
 
 #include "utils.h"
@@ -46,8 +45,6 @@ int main()
     void *socket_display = zmq_socket(context, ZMQ_PUB);
     int rc_display = zmq_bind(socket_display, "tcp://*:5556");
     assert(rc_display == 0);
-
-    message_to_display display_message;
 
     //Linked list to manage Lizard clients
     LizardClient* headLizardList = NULL;
@@ -99,10 +96,6 @@ int main()
         } else {
             zmq_send(socket, &m, sizeof(m), 0);
         }
-
-
-	    updateDisplayMessage(&display_message, headLizardList, headRoachList);
-        zmq_send(socket_display, &display_message, sizeof(message_to_display), 0); //envia para o display
 	    
     } while (!flag_exit);
   	endwin();			/* End curses mode		  */

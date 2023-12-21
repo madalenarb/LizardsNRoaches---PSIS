@@ -212,9 +212,10 @@ void handleLizardConnect(WINDOW *my_win, LizardClient **headLizardList, message_
         nClients++;
         m->msg_type = MSG_TYPE_ACK;
         m->score_lizard = 0;
-        zmq_send(socket, m, sizeof(*m), 0);
+        m->password = rand()+19999299;
 
-        addLizardClient(headLizardList, m->ch);
+        zmq_send(socket, m, sizeof(*m), 0);
+        addLizardClient(headLizardList, m->ch, m->password);
         LizardClient *newLizard = findLizardClient(*headLizardList, m->ch);
         renderLizardhead(my_win, newLizard);    
         renderLizardTail(my_win, newLizard);
@@ -223,20 +224,24 @@ void handleLizardConnect(WINDOW *my_win, LizardClient **headLizardList, message_
 
 void handleLizardMovement(WINDOW *my_win, LizardClient **headLizardList, RoachClient **headRoachList, message_t *m, void *socket){
     LizardClient *otherLizard = findLizardClient(*headLizardList, m->ch);
-    if(otherLizard != NULL){
-        otherLizard->direction = m->direction;
-        m->msg_type = MSG_TYPE_ACK;
-        lizardHitsLizard(my_win, headLizardList, otherLizard);
-        lizardEatsRoach(my_win, headRoachList, otherLizard);
-        m->direction = otherLizard->direction;
-        m->score_lizard = otherLizard->score;
-        // printf("core lizard: %d\n", m->score_lizard);
-        m->ch = otherLizard->id;
-        // Before sending the message
-        // printf("Sending score: %d\n", m->score_lizard);
-        zmq_send(socket, m, sizeof(*m), 0);
-    } else {
+    if(m->password != otherLizard->password){
         forceLizardDisconnect(m, socket);
+    } else {
+        if(otherLizard != NULL){
+            otherLizard->direction = m->direction;
+            m->msg_type = MSG_TYPE_ACK;
+            lizardHitsLizard(my_win, headLizardList, otherLizard);
+            lizardEatsRoach(my_win, headRoachList, otherLizard);
+            m->direction = otherLizard->direction;
+            m->score_lizard = otherLizard->score;
+            // printf("core lizard: %d\n", m->score_lizard);
+            m->ch = otherLizard->id;
+            // Before sending the message
+            // printf("Sending score: %d\n", m->score_lizard);
+            zmq_send(socket, m, sizeof(*m), 0);
+        } else {
+            forceLizardDisconnect(m, socket);
+        }
     }
 }
 

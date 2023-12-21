@@ -8,14 +8,16 @@
 #include "Lizard_list.h"
 
 // Create a new LizardClient
-LizardClient* initLizardClient(char id){
+LizardClient* initLizardClient(char id, int password){
     LizardClient* newClient = malloc(sizeof(LizardClient));
     if(newClient == NULL){
         perror("malloc lizardClient");
         exit(EXIT_FAILURE);
     }
+    
     newClient->id = id;
     newClient->direction = rand() % 4;
+    newClient->password = password;
 
     // Set the initial position of the LizardClient, ensuring that it is not out of bounds
     int minDistance = 6;
@@ -47,8 +49,8 @@ LizardClient* initLizardClient(char id){
 
 
 // Add a new LizardClient to the end of the list
-void addLizardClient(LizardClient** headLizardList, char id){
-    LizardClient* lizardClient = initLizardClient(id);
+void addLizardClient(LizardClient** headLizardList, char id, int password){
+    LizardClient* lizardClient = initLizardClient(id, password);
     if(*headLizardList == NULL){
         *headLizardList = lizardClient;
     } else {

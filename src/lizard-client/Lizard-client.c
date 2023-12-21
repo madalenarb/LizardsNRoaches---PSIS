@@ -9,6 +9,7 @@
 
 int main()
 {
+    int password = 0;
     message_t ACK_server;
     char direction_name[4][10] = {"UP", "DOWN", "LEFT", "RIGHT"};
     int score = 0;
@@ -34,6 +35,7 @@ int main()
     m.direction = -1;
     zmq_send(socket, &m, sizeof(message_t), 0);
     zmq_recv(socket, &ACK_server, sizeof(message_t), 0);
+    password = ACK_server.password;
     mvprintw(0,0,"score: %d", score);
     if(ACK_server.msg_type == MSG_TYPE_DISCONNECT || ACK_server.msg_type != MSG_TYPE_ACK){
         zmq_close(socket);
@@ -56,7 +58,8 @@ int main()
     m.msg_type = MSG_TYPE_LIZARD_MOVEMENT;
     int key;
     do
-    {        
+    { 
+        m.password = password;
     	key = getch();	
         
         select_direction(key, &m);

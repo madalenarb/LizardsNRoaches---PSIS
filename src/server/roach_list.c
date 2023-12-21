@@ -1,12 +1,12 @@
 /**
- * @file roach_array.c
+ * @file roach_list.c
  * @brief Implementation of functions related to RoachClient, including initialization, addition, and freeing of RoachClients.
  *
  * This file contains the definitions for functions responsible for initializing, adding, and freeing RoachClient structures.
  * It also includes functions to find and print RoachClients within the game.
  */
 
-#include "roach_array.h"
+#include "roach_list.h"
 
 
 RoachClient *initRoachClient(int n_roaches, int *score, int id_roach){

@@ -8,7 +8,7 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
-#include "roach_array.h"
+#include "roach_list.h"
 #include "Lizard_list.h"
 #include "render_funcs.h"
 #include "utils.h"

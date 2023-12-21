@@ -13,7 +13,7 @@
         "unordered_map": "c",
         "unordered_set": "c",
         "lizard-funcs.h": "c",
-        "roach_array.h": "c",
+        "roach_list.h": "c",
         "assert.h": "c",
         "tuple": "c",
         "timer.h": "c",
@@ -23,6 +23,7 @@
         "display_funcs.h": "c",
         "render_funcs.h": "c",
         "zmq.h": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "display.h": "c"
     }
 }
