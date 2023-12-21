@@ -10,6 +10,7 @@
 #include "../../common/constants.h"
 
 #include "render_funcs.h"
+#include "display.h"
 
 #include "utils.h"
 #include "lizards_funcs.h"
@@ -96,7 +97,7 @@ int main()
         } else {
             zmq_send(socket, &m, sizeof(m), 0);
         }
-	    
+	    handleDisplayUpdate(socket_display, headLizardList, headRoachList);
     } while (!flag_exit);
   	endwin();			/* End curses mode		  */
     printf("Bye\n");

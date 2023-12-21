@@ -1,10 +1,29 @@
 #include "display.h"
 
+/**
+ * 
+ * @brief Handles the display update
+ * 
+ * This function handles the display update by sending the display update message to the display application.
+ * 
+ * @param socket_display The socket to send the display update message to
+ * @param headLizardList The head of the lizard client linked list
+ * @param headRoachList The head of the roach client linked list
+ * 
+*/
 void handleDisplayUpdate(void *socket_display, LizardClient *headLizardList, RoachClient *headRoachList)
 {
-    display_update_t display_update;
+    LizardClient *currentLizardClient = NULL;
+    RoachClient *currentRoachClient = NULL;
 
-    LizardClient *currentLizardClient = headLizardList;
+    display_update_t display_update;
+    if(headLizardList == NULL && headRoachList == NULL){
+        return;
+    }
+
+    if(headLizardList != NULL)
+        currentLizardClient = headLizardList;
+
     while(currentLizardClient != NULL){
         display_update.entity_type = LIZARD;
         display_update.position = currentLizardClient->position;
@@ -17,7 +36,9 @@ void handleDisplayUpdate(void *socket_display, LizardClient *headLizardList, Roa
         currentLizardClient = currentLizardClient->next;
     }
 
-    RoachClient *currentRoachClient = headRoachList;
+    if(headRoachList != NULL)
+        currentRoachClient = headRoachList;
+
     while(currentRoachClient != NULL){
         display_update.entity_type = ROACH;
         for(int i = 0; i < currentRoachClient->num_roaches; i++){
