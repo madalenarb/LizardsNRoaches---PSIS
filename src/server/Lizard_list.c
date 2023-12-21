@@ -26,20 +26,24 @@ LizardClient* initLizardClient(char id, int password){
     newClient->position.position_y = rand() % (WINDOW_HEIGHT - 2*minDistance) + minDistance;
 
     // Set the initial position of the LizardClient's tail
-    for (int i = 1; i < 6; i++) 
-    {
-        if(newClient->direction == UP){
-            newClient->cauda_x[i-1] = newClient->position.position_x;
-            newClient->cauda_y[i-1] = newClient->position.position_y + i;
-        } else if(newClient->direction == DOWN){
-            newClient->cauda_x[i-1] = newClient->position.position_x;
-            newClient->cauda_y[i-1] = newClient->position.position_y - i;
-        } else if(newClient->direction == LEFT){
-            newClient->cauda_x[i-1] = newClient->position.position_x + i;
-            newClient->cauda_y[i-1] = newClient->position.position_y;
-        } else if(newClient->direction == RIGHT){
-            newClient->cauda_x[i-1] = newClient->position.position_x - i;
-            newClient->cauda_y[i-1] = newClient->position.position_y;
+    for(int i = 0; i < TAIL_LENGTH; i++){
+        switch(newClient->direction){
+            case UP:
+                newClient->cauda_x[i] = newClient->position.position_x + i + 1;
+                newClient->cauda_y[i] = newClient->position.position_y;
+                break;
+            case DOWN:
+                newClient->cauda_x[i] = newClient->position.position_x - i - 1;
+                newClient->cauda_y[i] = newClient->position.position_y;
+                break;
+            case LEFT:
+                newClient->cauda_x[i] = newClient->position.position_x;
+                newClient->cauda_y[i] = newClient->position.position_y + i + 1;
+                break;
+            case RIGHT:
+                newClient->cauda_x[i] = newClient->position.position_x - i - 1;
+                newClient->cauda_y[i] = newClient->position.position_y;
+                break;
         }
     }
     newClient->score = 0;

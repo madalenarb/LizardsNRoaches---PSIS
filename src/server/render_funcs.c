@@ -42,7 +42,7 @@ void renderLizardhead(WINDOW *my_win, LizardClient *otherLizard){
 }
 
 void renderLizardTail(WINDOW *my_win, LizardClient *otherLizard){
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < TAIL_LENGTH; i++){
         wmove(my_win, otherLizard->cauda_x[i], otherLizard->cauda_y[i]);
         waddch(my_win, (otherLizard->score < 50) ? '.' | A_BOLD : '*' | A_BOLD);
     }

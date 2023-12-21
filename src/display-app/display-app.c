@@ -5,11 +5,11 @@ position_t* DeriveTailPosition(position_t head_position, direction_t direction){
     for(int i = 0; i < TAIL_LENGTH; i++){
         switch(direction){
             case UP:
-                tail_position[i].position_x = head_position.position_x+i+1;
+                tail_position[i].position_x = head_position.position_x + i + 1;
                 tail_position[i].position_y = head_position.position_y;
                 break;
             case DOWN:
-                tail_position[i].position_x = head_position.position_x-i-1;
+                tail_position[i].position_x = head_position.position_x - i - 1;
                 tail_position[i].position_y = head_position.position_y;
                 break;
             case LEFT:
@@ -39,6 +39,7 @@ int main()
     //Set up the window to draw the game in
     WINDOW *display_win = newwin(WINDOW_HEIGHT, WINDOW_WIDTH, 0, 0);
     box(display_win, 0, 0);
+    wrefresh(display_win);
 
     display_update_t game_update;
     while(1){
@@ -55,7 +56,7 @@ int main()
             mvwaddch(display_win, game_update.position.position_x, game_update.position.position_y, game_update.ch);
             //Draw the tail
             for(int i = 0; i < TAIL_LENGTH; i++){
-                mvwaddch(display_win, tailPositions[i].position_x, tailPositions[i].position_y, game_update.ch);
+                mvwaddch(display_win, tailPositions[i].position_x, tailPositions[i].position_y, (game_update.score < 50) ? '.' : '*');
             }
         }
         wrefresh(display_win);
