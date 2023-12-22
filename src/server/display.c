@@ -1,5 +1,25 @@
 #include "display.h"
 
+void populateLizardUpdate(LizardClient *lizardClient, display_update_t *gameState)
+{
+    gameState->entity_type = LIZARD;
+    gameState->position = lizardClient->position;
+    gameState->direction = lizardClient->direction;
+    gameState->ch = lizardClient->id;
+    gameState->score = lizardClient->score;
+}
+
+void populateRoachUpdate(RoachClient *roachClient, display_update_t *gameState)
+{
+    gameState->entity_type = ROACH;
+    for(int i = 0; i < roachClient->num_roaches; i++){
+        gameState->roach_positions[i] = roachClient->roaches[i].position;
+        gameState->roach_score[i] = roachClient->roaches[i].score;
+        gameState->roaches_num = roachClient->num_roaches;
+        gameState->on_board[i] = roachClient->roaches[i].on_board;
+    }
+}
+
 /**
  * 
  * @brief Handles the display update
@@ -16,7 +36,20 @@ void handleDisplayUpdate(void *socket_display, LizardClient *headLizardList, Roa
     LizardClient *currentLizardClient = NULL;
     RoachClient *currentRoachClient = NULL;
 
-    display_update_t display_update;
+    int totalEntities = countLizards(headLizardList) + countRoaches(headRoachList);
+    int i = 0;
+
+    display_update_t *gameState = (display_update_t *)malloc(sizeof(display_update_t) * totalEntities);
+    for(int i = 0; i < totalEntities; i++){
+        gameState[i].entity_type = NOTHING;
+    }
+    for(int i = 0; i < MAX_ROACHES_PER_CLIENT; i++){
+        gameState[i].roaches_num = 0;
+    }
+    for(int i = 0; i < MAX_ROACHES_PER_CLIENT; i++){
+        gameState[i].roach_score[i] = 0;
+    }
+    
     if(headLizardList == NULL && headRoachList == NULL){
         return;
     }
@@ -25,14 +58,7 @@ void handleDisplayUpdate(void *socket_display, LizardClient *headLizardList, Roa
         currentLizardClient = headLizardList;
 
     while(currentLizardClient != NULL){
-        display_update.entity_type = LIZARD;
-        display_update.position = currentLizardClient->position;
-        display_update.direction = currentLizardClient->direction;
-        display_update.ch = currentLizardClient->id;
-        display_update.score = currentLizardClient->score;
-
-        zmq_send(socket_display, &display_update, sizeof(display_update_t), 0);
-
+        populateLizardUpdate(currentLizardClient, &gameState[i++]);
         currentLizardClient = currentLizardClient->next;
     }
 
@@ -40,12 +66,15 @@ void handleDisplayUpdate(void *socket_display, LizardClient *headLizardList, Roa
         currentRoachClient = headRoachList;
 
     while(currentRoachClient != NULL){
-        display_update.entity_type = ROACH;
-        for(int i = 0; i < currentRoachClient->num_roaches; i++){
-            display_update.position = currentRoachClient->roaches[i].position;
-            display_update.score = currentRoachClient->roaches[i].score;
-            zmq_send(socket_display, &display_update, sizeof(display_update_t), 0);
-        }        
+        populateRoachUpdate(currentRoachClient, &gameState[i++]);        
         currentRoachClient = currentRoachClient->next;
     }
+
+    //Send total number of entities to display
+    zmq_send(socket_display, &totalEntities, sizeof(int), 0);
+
+    //Send full game state to display
+    zmq_send(socket_display, gameState, sizeof(display_update_t) * totalEntities, 0);
+
+    free(gameState);
 }

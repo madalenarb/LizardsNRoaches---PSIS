@@ -20,7 +20,7 @@ typedef struct Roach{
     int score;
     direction_t direction;
     position_t position;
-    int on_board;
+    int on_board; // 1 if the roach is on the board, 0 otherwise
     time_t eaten_time;
 } Roach;
 
@@ -57,6 +57,8 @@ void addRoachClient(RoachClient **headRoachList, int *score, int n_roaches, int 
  * @return Pointer to the found RoachClient, or NULL if not found.
  */
 RoachClient* findRoachClient(RoachClient **headRoachList, int id_roach);
+
+int countRoaches(RoachClient *headRoachList);
 
 /**
  * @brief Frees the memory allocated for the linked list of roach clients.

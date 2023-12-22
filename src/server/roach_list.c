@@ -53,6 +53,16 @@ RoachClient* findRoachClient(RoachClient **headRoachList, int id_roach){
     return currentRoachClient;
 }
 
+int countRoaches(RoachClient *headRoachList){
+    RoachClient *currentRoachClient = headRoachList;
+    int count = 0;
+    while(currentRoachClient != NULL){
+        count += currentRoachClient->num_roaches;
+        currentRoachClient = currentRoachClient->next;
+    }
+    return count;
+}
+
 void printRoachList(RoachClient *headRoachList){
     RoachClient *currentRoachClient = headRoachList;
     while(currentRoachClient != NULL){

@@ -25,6 +25,46 @@ position_t* DeriveTailPosition(position_t head_position, direction_t direction){
     return tail_position;
 }
 
+void renderLizard(WINDOW *display_win, display_update_t game_update){
+    mvwaddch(display_win, game_update.position.position_x, game_update.position.position_y, game_update.ch);
+    //Draw the tail
+    position_t* tailPositions = DeriveTailPosition(game_update.position, game_update.direction);
+    for(int i = 0; i < TAIL_LENGTH; i++){
+        mvwaddch(display_win, tailPositions[i].position_x, tailPositions[i].position_y, (game_update.score < 50) ? '.' : '*');
+    }
+}
+
+void renderRoach(WINDOW *display_win, display_update_t game_update){
+    for(int i = 0; i < game_update.roaches_num; i++){
+        if(game_update.on_board[i] == 1)
+            mvwaddch(display_win, game_update.roach_positions[i].position_x, game_update.roach_positions[i].position_y, '0' + game_update.roach_score[i]);
+    }
+}
+
+void updateDisplay(WINDOW *display_win, void *subscriber){
+    int totalEntities = 0;
+    zmq_recv(subscriber, &totalEntities, sizeof(int), 0);
+
+    display_update_t *gameState = (display_update_t *)malloc(sizeof(display_update_t) * totalEntities);
+    zmq_recv(subscriber, gameState, sizeof(display_update_t) * totalEntities, 0);
+
+    //Clear the window
+    werase(display_win);
+    box(display_win, 0, 0);
+
+    //Render the entities
+    for(int i = 0; i < totalEntities; i++){
+        if(gameState[i].entity_type == LIZARD){
+            renderLizard(display_win, gameState[i]);
+        } else if(gameState[i].entity_type == ROACH){
+            renderRoach(display_win, gameState[i]);
+        }
+    }
+    wrefresh(display_win);
+
+    free(gameState);
+}
+
 int main()
 {
     void *context = zmq_ctx_new();
@@ -41,25 +81,8 @@ int main()
     box(display_win, 0, 0);
     wrefresh(display_win);
 
-    display_update_t game_update;
     while(1){
-        //Receive the game update message
-        zmq_recv(subscriber, &game_update, sizeof(message_t), 0);
-        position_t* tailPositions = DeriveTailPosition(game_update.position, game_update.direction);
-        //Clear the window
-        wclear(display_win);
-        box(display_win, 0, 0);
-
-        //check if the entity is a lizard or a roach
-        if(game_update.entity_type == LIZARD){
-            //Draw the lizard
-            mvwaddch(display_win, game_update.position.position_x, game_update.position.position_y, game_update.ch);
-            //Draw the tail
-            for(int i = 0; i < TAIL_LENGTH; i++){
-                mvwaddch(display_win, tailPositions[i].position_x, tailPositions[i].position_y, (game_update.score < 50) ? '.' : '*');
-            }
-        }
-        wrefresh(display_win);
+        updateDisplay(display_win, subscriber);
     }
     return 0;
 }

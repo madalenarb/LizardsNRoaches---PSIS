@@ -79,6 +79,16 @@ void printList(LizardClient* headLizardList){
     }
 }
 
+int countLizards(LizardClient* headLizardList){
+    LizardClient* current = headLizardList;
+    int count = 0;
+    while(current != NULL){
+        count++;
+        current = current->next;
+    }
+    return count;
+}
+
 // Disconect a LizardClient from the list
 void disconnectLizardClient(LizardClient** headLizardList, char id){
     // printf("disconnecting lizard %c\n", id);
