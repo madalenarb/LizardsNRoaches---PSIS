@@ -68,8 +68,8 @@ int main()
             n++;
             m.msg_type = MSG_TYPE_LIZARD_MOVEMENT;
             zmq_send(socket, &m, sizeof(message_t), 0);
-            zmq_recv(socket, &ACK_server, sizeof(message_t), 0); 
-            if(ACK_server.msg_type == MSG_TYPE_DISCONNECT|| ACK_server.msg_type != MSG_TYPE_ACK){
+            zmq_recv(socket, &ACK_server, sizeof(message_t), 0);
+            if(ACK_server.msg_type == MSG_TYPE_DISCONNECT || ACK_server.msg_type != MSG_TYPE_ACK){
                 endwin();
                 zmq_close(socket);
                 zmq_ctx_destroy(context);

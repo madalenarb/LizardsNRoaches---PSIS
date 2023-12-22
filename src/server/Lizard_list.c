@@ -91,7 +91,6 @@ int countLizards(LizardClient* headLizardList){
 
 // Disconect a LizardClient from the list
 void disconnectLizardClient(LizardClient** headLizardList, char id){
-    // printf("disconnecting lizard %c\n", id);
     LizardClient* current = *headLizardList, *prev;
     if(current != NULL && current->id == id){
         *headLizardList = current->next;
@@ -105,7 +104,6 @@ void disconnectLizardClient(LizardClient** headLizardList, char id){
     if(current == NULL) return;
     prev->next = current->next;
     free(current);
-    // printf("disconnected lizard %c\n", id);
 }
 
 // Free the list of LizardClient

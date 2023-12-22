@@ -42,12 +42,10 @@ void handleDisplayUpdate(void *socket_display, LizardClient *headLizardList, Roa
     display_update_t *gameState = (display_update_t *)malloc(sizeof(display_update_t) * totalEntities);
     for(int i = 0; i < totalEntities; i++){
         gameState[i].entity_type = NOTHING;
-    }
-    for(int i = 0; i < MAX_ROACHES_PER_CLIENT; i++){
         gameState[i].roaches_num = 0;
-    }
-    for(int i = 0; i < MAX_ROACHES_PER_CLIENT; i++){
-        gameState[i].roach_score[i] = 0;
+        for(int j = 0; j < MAX_ROACHES_PER_CLIENT; j++){
+            gameState[i].roach_score[j] = 0;
+        }
     }
     
     if(headLizardList == NULL && headRoachList == NULL){
@@ -56,7 +54,7 @@ void handleDisplayUpdate(void *socket_display, LizardClient *headLizardList, Roa
 
     if(headLizardList != NULL)
         currentLizardClient = headLizardList;
-
+    
     while(currentLizardClient != NULL){
         populateLizardUpdate(currentLizardClient, &gameState[i++]);
         currentLizardClient = currentLizardClient->next;

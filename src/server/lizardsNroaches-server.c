@@ -68,7 +68,8 @@ int main()
             break;
         
         case MSG_TYPE_LIZARD_MOVEMENT:
-            handleLizardMovement(my_win, &headLizardList, &headRoachList, &m, socket);
+            if(headLizardList != NULL)
+                handleLizardMovement(my_win, &headLizardList, &headRoachList, &m, socket);
             break;
         
         case MSG_TYPE_DISCONNECT:

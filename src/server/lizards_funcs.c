@@ -143,8 +143,10 @@ void new_position(LizardClient* otherLizard){
 }
 
 void forceLizardDisconnect(message_t *m, void *socket){
-    m->msg_type = MSG_TYPE_DISCONNECT;
-    zmq_send(socket, &m, sizeof(message_t), 0);
+    message_t disconnectMessage;
+    disconnectMessage.msg_type = MSG_TYPE_DISCONNECT;
+    zmq_recv(socket, m, sizeof(message_t), 0);
+    zmq_send(socket, &disconnectMessage, sizeof(message_t), 0);
 }
 
 void lizardTailOrientation(LizardClient *currentClient){
@@ -223,21 +225,19 @@ void handleLizardConnect(WINDOW *my_win, LizardClient **headLizardList, message_
 }
 
 void handleLizardMovement(WINDOW *my_win, LizardClient **headLizardList, RoachClient **headRoachList, message_t *m, void *socket){
-    LizardClient *otherLizard = findLizardClient(*headLizardList, m->ch);
-    if(m->password != otherLizard->password){
+    LizardClient *currentLizard = findLizardClient(*headLizardList, m->ch);
+    if(m->password != currentLizard->password){
         forceLizardDisconnect(m, socket);
     } else {
-        if(otherLizard != NULL){
-            otherLizard->direction = m->direction;
+        if(currentLizard != NULL){
+            currentLizard->direction = m->direction;
             m->msg_type = MSG_TYPE_ACK;
-            lizardHitsLizard(my_win, headLizardList, otherLizard);
-            lizardEatsRoach(my_win, headRoachList, otherLizard);
-            m->direction = otherLizard->direction;
-            m->score_lizard = otherLizard->score;
-            // printf("core lizard: %d\n", m->score_lizard);
-            m->ch = otherLizard->id;
+            lizardHitsLizard(my_win, headLizardList, currentLizard);
+            lizardEatsRoach(my_win, headRoachList, currentLizard);
+            m->direction = currentLizard->direction;
+            m->score_lizard = currentLizard->score;
+            m->ch = currentLizard->id;
             // Before sending the message
-            // printf("Sending score: %d\n", m->score_lizard);
             zmq_send(socket, m, sizeof(*m), 0);
         } else {
             forceLizardDisconnect(m, socket);
@@ -261,16 +261,18 @@ void disconnectAllLizards(LizardClient **headLizardList, void *socket) {
     while (currentLizard != NULL) {
         
         // Send a message before disconnecting
-        // message_t m;
-        // zmq_recv(socket, &m, sizeof(m), 0);
-        
+        message_t m;
+        zmq_recv(socket, &m, sizeof(m), 0);
+        message_t disconnectMessage;
+        disconnectMessage.msg_type = MSG_TYPE_DISCONNECT;
+        disconnectMessage.ch = currentLizard->id;
+
+        zmq_send(socket, &disconnectMessage, sizeof(message_t), 0);
+
         // Disconnect lizard
         // Clean and disconnect
         disconnectLizardClient(headLizardList, currentLizard->id);
         currentLizard = currentLizard->next;
-        message_t disconnectMessage;
-        disconnectMessage.msg_type = MSG_TYPE_DISCONNECT;
-        zmq_send(socket, &disconnectMessage, sizeof(message_t), 0);
     }
 
     freeList(headLizardList);
